@@ -1,0 +1,1 @@
+/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/debug/libtoken_factory.dylib: /Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/src/../../token/build-output/main.wasm /Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/src/lib.rs

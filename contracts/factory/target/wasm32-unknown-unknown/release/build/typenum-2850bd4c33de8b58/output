@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/wasm32-unknown-unknown/release/build/typenum-2850bd4c33de8b58/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/wasm32-unknown-unknown/release/build/typenum-2850bd4c33de8b58/out/op.rs
