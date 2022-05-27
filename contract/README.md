@@ -4,7 +4,8 @@
 - [ ] Confirm near token creation mechanisms
 - [ ] Implement burning
 - [ ] Implement revoking
-- [ ] EVENT_JSON
+- [ ] EVENT_JSON needs updating
+- [ ] enumerate contracts using a smart contract indexer, or just use the graph
 
 # Smart contract source basis
 
