@@ -27,9 +27,21 @@ const CreateCollection: FC<WelcomePromptProps> = ({
   }>({ name: "", done: false });
   // const [collectionName, setCollectionName] = useState<string>("");
 
+  const [formValues, setFormValues] = useState([{ name: "", email : ""}])
+
   const [inputFields, setInputFields] = useState<{
     inputNames: string[];
   }>({ inputNames: [] });
+
+//   let handleChange = (i, e) => {
+//     let newFormValues = [...formValues];
+//     newFormValues[i][e.target.name] = e.target.value;
+//     setFormValues(newFormValues);
+//  }
+    
+// let addFormFields = () => {
+//     setFormValues([...formValues, { name: "", email: "" }])
+//  }
 
   return (
     <Box alignItems={"center"}>
