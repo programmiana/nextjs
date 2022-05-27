@@ -4,9 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es2017",
-    "lib": [
-      "es2017"
-    ],
+    "lib": ["ESNext", "dom"],
     "strict": true,
     "sourceMap": true,
     "noEmitOnError": true,
@@ -21,12 +19,6 @@
     "esModuleInterop": true,
     "isolatedModules": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
