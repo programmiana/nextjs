@@ -31,20 +31,23 @@ const CreateCollection: FC<WelcomePromptProps> = ({
     inputNames: string[];
   }>({ inputNames: [] });
 
-  const [formValues, setFormValues] = useState([{ name: "", email: "" }]);
+  const [formValues, setFormValues] = useState([{ name: "" }]);
 
-  let handleChange = (i: number, e: Event) => {s
-    console.log('hihgihgi')
-    const newFormValues: { name: string; email: string }[] = [...formValues];
-    newFormValues[i][e.target.name] = e.target.value;
-    console.log(newFormValues)
-    setFormValues(newFormValues);
+  interface NamedPoint extends Event {
+    name: string;
+  }
+
+  let handleChange = (i: number, e: Event) => {
+    const newFormValues = [...formValues];
+
+    if (e.target) {
+      newFormValues[i]["name"] = (e.target as HTMLInputElement).value;
+      setFormValues(newFormValues);
+    }
   };
 
-  console.log(formValues);
-
   let addFormFields = () => {
-    setFormValues([...formValues, { name: "", email: "" }]);
+    setFormValues([...formValues, { name: "" }]);
   };
 
   let removeFormFields = (i: number) => {
@@ -97,7 +100,9 @@ const CreateCollection: FC<WelcomePromptProps> = ({
                   addFormFields={addFormFields}
                   key={index}
                   name={element.name}
+                  index={index}
                   onChange={(i, e: Event) => handleChange(index, e)}
+                  formValues={formValues}
                 />
               ))}
             </Stack>
@@ -114,25 +119,34 @@ type AddInputFieldProps = {
   onChange: (i: number, e: Event) => void;
   name: string;
   addFormFields: () => void;
+  index: number;
+  formValues: { name: string }[];
 };
 
 const AddInputField: FC<AddInputFieldProps> = ({
   name,
   onChange,
   addFormFields,
+  index,
+  formValues,
 }) => {
-  console.log(addFormFields);
   return (
     <Stack justifyContent="space-around" direction={"row"}>
-      <TextField id={name} variant="standard" onChange={() => onChange} />
+      <TextField
+        id={name}
+        name={"name"}
+        variant="standard"
+        onChange={(e) => onChange(index, e)}
+      />
       <IconButton
         color="primary"
         aria-label="upload picture"
         component="span"
         size="small"
         onClick={() => {
-          addFormFields()
-          onChange
+          if(formValues[index].name === "") return;
+            addFormFields();
+            onChange;
         }}
       >
         <Add />

@@ -64,6 +64,7 @@ function WalletProvider({ children }: any) {
     setWallet(walletConn);
 
     myFunction();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response, connectWallet]);
 
   const accountId = wallet?.getAccountId();
