@@ -27,21 +27,36 @@ const CreateCollection: FC<WelcomePromptProps> = ({
   }>({ name: "", done: false });
   // const [collectionName, setCollectionName] = useState<string>("");
 
-  const [formValues, setFormValues] = useState([{ name: "", email : ""}])
-
   const [inputFields, setInputFields] = useState<{
     inputNames: string[];
   }>({ inputNames: [] });
 
-//   let handleChange = (i, e) => {
-//     let newFormValues = [...formValues];
-//     newFormValues[i][e.target.name] = e.target.value;
-//     setFormValues(newFormValues);
-//  }
-    
-// let addFormFields = () => {
-//     setFormValues([...formValues, { name: "", email: "" }])
-//  }
+  const [formValues, setFormValues] = useState([{ name: "", email: "" }]);
+
+  let handleChange = (i: number, e: Event) => {s
+    console.log('hihgihgi')
+    const newFormValues: { name: string; email: string }[] = [...formValues];
+    newFormValues[i][e.target.name] = e.target.value;
+    console.log(newFormValues)
+    setFormValues(newFormValues);
+  };
+
+  console.log(formValues);
+
+  let addFormFields = () => {
+    setFormValues([...formValues, { name: "", email: "" }]);
+  };
+
+  let removeFormFields = (i: number) => {
+    let newFormValues = [...formValues];
+    newFormValues.splice(i, 1);
+    setFormValues(newFormValues);
+  };
+
+  let handleSubmit = (event: Event) => {
+    event.preventDefault();
+    alert(JSON.stringify(formValues));
+  };
 
   return (
     <Box alignItems={"center"}>
@@ -71,18 +86,21 @@ const CreateCollection: FC<WelcomePromptProps> = ({
         )}
 
         {collectionData.done && (
-          <Stack gap={2}>
+          <Stack gap={3}>
             <Typography variant="h4" noWrap>
-              Cool! {collectionData.name} collection.
-            </Typography>
-            <Typography variant="h5" noWrap>
-              What is it about?
+              Cool! {collectionData.name} collection. What is it about?
             </Typography>
 
-            <AddInput
-              setInputFields={setInputFields}
-              inputFields={inputFields}
-            />
+            <Stack gap={3}>
+              {formValues.map((element, index) => (
+                <AddInputField
+                  addFormFields={addFormFields}
+                  key={index}
+                  name={element.name}
+                  onChange={(i, e: Event) => handleChange(index, e)}
+                />
+              ))}
+            </Stack>
           </Stack>
         )}
       </FormControl>
@@ -92,33 +110,30 @@ const CreateCollection: FC<WelcomePromptProps> = ({
 
 export default CreateCollection;
 
-type AddInputProps = {
-  setInputFields: Dispatch<
-    SetStateAction<{
-      inputNames: string[];
-    }>
-  >;
-  inputFields: { inputNames: string[] };
+type AddInputFieldProps = {
+  onChange: (i: number, e: Event) => void;
+  name: string;
+  addFormFields: () => void;
 };
-const AddInput: FC<AddInputProps> = ({ setInputFields, inputFields }) => {
+
+const AddInputField: FC<AddInputFieldProps> = ({
+  name,
+  onChange,
+  addFormFields,
+}) => {
+  console.log(addFormFields);
   return (
     <Stack justifyContent="space-around" direction={"row"}>
-      <TextField
-        id="collection-params"
-        variant="standard"
-        onChange={(e) =>
-          setInputFields({
-            inputNames: [...inputFields.inputNames, e.currentTarget.value],
-          })
-        }
-      />
-
+      <TextField id={name} variant="standard" onChange={() => onChange} />
       <IconButton
         color="primary"
         aria-label="upload picture"
         component="span"
         size="small"
-        onClick={() => {}}
+        onClick={() => {
+          addFormFields()
+          onChange
+        }}
       >
         <Add />
       </IconButton>

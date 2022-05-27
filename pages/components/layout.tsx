@@ -1,14 +1,19 @@
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import { FC, ReactNode, useEffect } from "react";
-import Head from "next/head";
-import styles from "../../styles/Home.module.css";
 import styled from "@emotion/styled";
-import AppBar from "@mui/material/AppBar";
-import ObjectCanvas from "./three-object";
 import { Stack } from "@mui/material";
-import PrimaryButton from "../components/button";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { connect, Near, WalletConnection } from "near-api-js";
 import { useRouter } from "next/router";
+import { cloneElement, FC, ReactNode, useEffect, useState } from "react";
+import styles from "../../styles/Home.module.css";
+import PrimaryButton from "../components/button";
+import ObjectCanvas from "./three-object";
+import config from "../../config";
+import * as nearAPI from "near-api-js";
+import { useWallet, WalletProvider } from "./wallet-context";
+import SecondaryButton from "./secondary-button";
+declare var window: any;
 
 type LayoutProps = {
   children: ReactNode;
@@ -22,6 +27,9 @@ const StyledAppBar = styled(AppBar)`
 const Layout: FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
 
+  const { wallet, setConnectWallet } = useWallet();
+
+  const accountId = wallet.getAccountId();
   return (
     <Box>
       <StyledAppBar position="static">
@@ -37,6 +45,18 @@ const Layout: FC<LayoutProps> = ({ children }) => {
           style={{ backgroundColor: "black", height: "100vh" }}
         ></Grid>
         <Grid xs={8} item>
+          {accountId && (
+            <SecondaryButton
+              label={"sign out"}
+              onClick={() => {
+                wallet?.signOut();
+                router.push("/", undefined, {
+                  shallow: true,
+                });
+              }}
+            />
+          )}
+
           <Stack
             style={{ minWidth: "100%" }}
             padding={8}
@@ -46,15 +66,15 @@ const Layout: FC<LayoutProps> = ({ children }) => {
             justifyContent="space-around"
             gap={4}
           >
+            {!accountId && (
               <PrimaryButton
                 label={"connect wallet"}
                 onClick={() => {
-                  router.push("/create-collection", undefined, {
-                    shallow: true,
-                  });
+                  setConnectWallet(true);
                 }}
               />
-              <div>{children}</div>
+            )}
+            {children}
           </Stack>
         </Grid>
         <Grid
