@@ -164,6 +164,60 @@ export async function mintNTT(
   } as any);
 }
 
+export async function isAccountSufficientlyFunded(
+  factoryContractUser: FactoryContractWithMethods,
+  ownerAccountId: any
+) {
+  const args = {
+    owner_id: ownerAccountId,
+    metadata: {
+      spec: "ntt-0.0.1",
+      name: "BOOP",
+      // This symbol is used to determine the address boop2.
+      symbol: "Boop2",
+      icon: "xyz",
+      decimals: 1,
+    },
+  };
+  const requiredDeposit = Big(
+    await factoryContractUser.get_required_deposit({
+      args,
+      account_id: ownerAccountId,
+    })
+  );
+  return requiredDeposit.eq(0);
+}
+
+export async function fundAccount(
+  factoryContractUser: FactoryContractWithMethods,
+  ownerAccountId: any
+) {
+  const args = {
+    owner_id: ownerAccountId,
+    metadata: {
+      spec: "ntt-0.0.1",
+      name: "BOOP",
+      // This symbol is used to determine the address boop2.
+      symbol: "Boop2",
+      icon: "xyz",
+      decimals: 1,
+    },
+  };
+  const requiredDeposit = Big(
+    await factoryContractUser.get_required_deposit({
+      args,
+      account_id: ownerAccountId,
+    })
+  );
+  await factoryContractUser.storage_deposit({
+    args: {},
+    // Maybe not BN( wrap)
+    gas: new BN(BoatOfGas.toFixed(0)),
+    attachedDeposit: requiredDeposit.times(10).toFixed(0),
+    amount: requiredDeposit.times(10).toFixed(0),
+  });
+}
+
 export async function createNTTCollection(
   factoryContractUser: FactoryContractWithMethods,
   ownerAccountId: any,
@@ -189,7 +243,6 @@ export async function createNTTCollection(
       account_id: ownerAccountId,
     })
   );
-  alert(requiredDeposit.toString());
   if (requiredDeposit.eq(0)) {
     cb();
     // We have enough $$! Awesome

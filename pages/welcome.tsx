@@ -10,6 +10,14 @@ import { Box } from "@mui/material";
 import { useWallet } from "./components/wallet-context";
 import SecondaryButton from "./components/secondary-button";
 import { useRouter } from "next/router";
+import {
+  config,
+  createNTTCollection,
+  factoryContractMethods,
+  fundAccount,
+  FactoryContractWithMethods,
+} from "./contracts";
+import { Contract } from "near-api-js/lib/contract";
 
 type WelcomePromptProps = {
   name?: string;
@@ -37,6 +45,20 @@ const WelcomePrompt: FC<WelcomePromptProps> = ({ name = "stranger" }) => {
                 shallow: true,
               })
             }
+          />
+        )}
+        {accountName && (
+          <PrimaryButton
+            label={"Fund wallet"}
+            onClick={() => {
+              const userAccount = wallet!.account();
+              const userUseFactoryContract = new Contract(
+                userAccount,
+                config.factoryContractAccount,
+                factoryContractMethods
+              ) as FactoryContractWithMethods;
+              fundAccount(userUseFactoryContract, wallet.getAccountId());
+            }}
           />
         )}
       </Stack>

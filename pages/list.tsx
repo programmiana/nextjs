@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { getArweaveImage } from "./api/bundlr";
 import Image from "next/image";
+import { resolve } from "node:path/win32";
 
 const List: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
@@ -39,13 +40,17 @@ const List: FC = ({}) => {
     });
     const images = await Promise.all(
       newdata.map((data, i) => {
-        return data.metadata.icon.includes("https://arweave.net/")
-          ? getArweaveImage(
-              data.metadata.icon
-                .replace("https://arweave.net/", "")
-                .replace("?ext=svg", "")
-            )
-          : "";
+        try {
+          return data.metadata.icon.includes("https://arweave.net/")
+            ? getArweaveImage(
+                data.metadata.icon
+                  .replace("https://arweave.net/", "")
+                  .replace("?ext=svg", "")
+              )
+            : "";
+        } catch (err) {
+          return "";
+        }
       })
     );
     newdata = newdata.map((d, i) => ({ ...d, image: images[i] }));
