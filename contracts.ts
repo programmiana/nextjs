@@ -9,7 +9,6 @@ import {
   transactions,
 } from "near-api-js";
 import Big from "big.js";
-import ls from "local-storage";
 
 import { FunctionCallOptions } from "near-api-js/lib/account";
 const BN = require("bn.js");
