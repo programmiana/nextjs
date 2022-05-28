@@ -17,6 +17,7 @@ import UndrawSvgs from "../components/undrawSvgs";
 import { WalletContext } from "../components/wallet-context";
 import SecondaryButton from "../components/secondary-button";
 import TextField from "@mui/material/TextField";
+import { getArweaveImage } from "pages/api/bundlr";
 
 const YourCollection: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
@@ -33,6 +34,7 @@ const YourCollection: FC = ({}) => {
 
     await mintNTT(useTokenContract, {}, input);
   }
+  const [image, setImage] = useState("");
   const [data, setData] = useState(null);
   const [souls, setSouls] = useState(null);
 
@@ -65,6 +67,15 @@ const YourCollection: FC = ({}) => {
     const newdata = await getToken(userUseFactoryContract, {
       token_id: router.query.tokenId,
     });
+
+    const image = newdata.metadata.icon.includes("https://arweave.net/")
+      ? await getArweaveImage(
+          newdata.metadata.icon
+            .replace("https://arweave.net/", "")
+            .replace("?ext=svg", "")
+        )
+      : "";
+    setImage(image as string);
     setData(newdata);
     console.log(newdata);
     fetchSouls();
@@ -81,6 +92,8 @@ const YourCollection: FC = ({}) => {
       <Typography variant="h4" noWrap color={"purple"}>
         {data.metadata.name}
       </Typography>
+      <div dangerouslySetInnerHTML={{ __html: image }} />
+
       {/* <UndrawSvgs option={data.svgName.replace(/\s/g, "")} /> */}
       <hr />
       <div>
