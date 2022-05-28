@@ -38,6 +38,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
           <Link href="/">
             <h1 className={styles.title}>SoulBadger</h1>
           </Link>
+          <ObjectCanvas />
         </Stack>
       </StyledAppBar>
       <Grid container spacing={1}>
