@@ -10,7 +10,7 @@ const MeshBox: FC<MeshBoxProps> = ({ position, color, args }) => {
   const mesh = useRef<any>(null);
 
   useFrame(
-    () => (mesh!.current.rotation.x = mesh!.current.rotation.y += 0.009)
+    () => (mesh!.current.rotation.x = mesh!.current.rotation.y += 0.007)
   );
 
   return (
@@ -40,10 +40,10 @@ export const ObjectCanvas: FC = () => {
 
         <MeshBox color="deeppink" position={[0, 1, 0]} args={[4, 6, 6]} />
         <MeshBox color="orange" position={[-4, 1, -7]} args={[4, 6, 6]} />
-        <MeshBox color="greenyellow" position={[7, 1, 0]} args={[4, 6, 6]}/>
+        <MeshBox color="greenyellow" position={[7, 1, 0]} args={[4, 6, 6]} />
       </Canvas>
     </div>
   );
 };
 
-export default ObjectCanvas; 
+export default ObjectCanvas;
