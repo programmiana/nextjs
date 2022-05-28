@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }) {
     if (creationState) {
       try {
         const parsedCreationState = JSON.parse(creationState);
+        setCreationState("")
         router.push(
           `/your-collection/${parsedCreationState.tokenId}`,
           undefined,

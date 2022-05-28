@@ -120,7 +120,10 @@ export async function mintNTT(
     attachedDeposit: new BN("561000000000000000000000"),
     // gas: tGas("150"),
     args: {
-      token_id: "0",
+      // FIXME:
+      token_id: Math.random()
+        .toString()
+        .slice(3, 8),
       metadata: {
         title: "",
         description: "",
@@ -171,9 +174,6 @@ export async function createNTTCollection(
       args: {
         args: {
           ...args,
-          metadata: {
-            ...args.metadata,
-          },
         },
       },
       gas: new BN(BoatOfGas.toFixed(0)),
@@ -193,9 +193,6 @@ export async function createNTTCollection(
         args: {
           args: {
             ...args,
-            metadata: {
-              ...args.metadata,
-            },
           },
         },
         // Maybe not BN( wrap)

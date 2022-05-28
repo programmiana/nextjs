@@ -4,6 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useBundlr } from "hooks/useBundlr";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
 import styles from "../../styles/Home.module.css";
@@ -28,14 +29,15 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const { wallet, setConnectWallet } = useWallet();
 
   const accountId = wallet.getAccountId();
-  const bundlr = useBundlr(wallet)
+  const bundlr = useBundlr(wallet);
 
   return (
     <Box>
       <StyledAppBar position="static">
         <Stack spacing={0} alignItems="center">
-          <h1 className={styles.title}>SoulBadger</h1>
-          <ObjectCanvas />
+          <Link href="/">
+            <h1 className={styles.title}>SoulBadger</h1>
+          </Link>
         </Stack>
       </StyledAppBar>
       <Grid container spacing={1}>
