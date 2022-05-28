@@ -1,42 +1,69 @@
 import Add from "@mui/icons-material/Add";
-import { Box, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {
+  Box,
+  capitalize,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  InputLabel,
+} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import ButtonExample from "../pages/components/pick-color";
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import {
-  UndrawDesigner,
-  UndrawResponsive,
-  UndrawAgreement,
-  UndrawAppreciation,
-  UndrawAstronaut,
-  UndrawCloudHosting,
-  UndrawGraduation,
-  UndrawMindfulness,
-} from "react-undraw-illustrations";
+import { ChangeEvent, FC, useState } from "react";
 import SecondaryButton from "./components/secondary-button";
+import Button from "./components/button";
 import UndrawSvgs from "./components/undrawSvgs";
+import ReactDOMServer from "react-dom/server";
 
-const undrawSvgsOptions = [
-  "Undraw Designer",
-  "Undraw Responsive",
-  "Undraw Agreement",
-  "Undraw Appreciation",
-  "Undraw Astronaut",
-  "Undraw CloudHosting",
-  "Undraw Graduation",
-  "Undraw Mindfulness",
+const colors = [
+  "deeppink",
+  "purple",
+  "yellowgreen",
+  "red",
+  "yellow",
+  "aliceblue",
 ];
-// type WelcomePromptProps = {
-//   name?: string;
-//   address?: String;
-// };
-const CreateCollection: FC = ({
-  
-}) => {
+const undrawSvgsOptions = [
+  {
+    name: "designer",
+    value: "Undraw Designer",
+  },
+
+  {
+    name: "computer",
+    value: "Undraw Responsive",
+  },
+
+  {
+    name: "handshake",
+    value: "Undraw Agreement",
+  },
+  {
+    name: "appreciation",
+    value: "Undraw Appreciation",
+  },
+  {
+    name: "astronaut",
+    value: "Undraw Astronaut",
+  },
+  {
+    name: "cloud Pro",
+    value: "Undraw CloudHosting",
+  },
+  {
+    name: "graduation",
+    value: "Undraw Graduation",
+  },
+  {
+    name: "meditation",
+    value: "Undraw Mindfulness",
+  },
+];
+
+const CreateCollection: FC = ({}) => {
   const [collectionData, setCollectionName] = useState<{
     name: string;
     done: boolean;
@@ -48,11 +75,24 @@ const CreateCollection: FC = ({
   }>({ inputNames: [], done: false });
 
   const [formValues, setFormValues] = useState([{ name: "" }]);
+  const [secondFormValues, setSecondFormFormValues] = useState<any>();
 
-  const [badgeType, setBadgeType] = useState("");
+  const [badgeType, setBadgeType] = useState("UndrawCloudHosting");
+
+  const [primaryColor, setPrimaryColor] = useState("deeppink");
+
+  const [secondaryColor, setSecondaryColor] = useState("yellowgreen");
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     setBadgeType(event.target.value);
+  };
+
+  const handlePrimaryColorChange = (event: SelectChangeEvent) => {
+    setPrimaryColor(event.target.value);
+  };
+
+  const handleSecondaryColorChange = (event: SelectChangeEvent) => {
+    setSecondaryColor(event.target.value);
   };
 
   let handleChange = (
@@ -67,6 +107,7 @@ const CreateCollection: FC = ({
     }
   };
 
+  console.log(secondFormValues);
   let addFormFields = () => {
     setFormValues([...formValues, { name: "" }]);
   };
@@ -84,111 +125,195 @@ const CreateCollection: FC = ({
     alert(JSON.stringify(formValues));
   };
 
+  const htmlString = ReactDOMServer.renderToString(
+    <UndrawSvgs
+      option={badgeType.replace(/\s/g, "")}
+      primaryColor={primaryColor}
+      secondaryColor={secondaryColor}
+    />
+  );
+
+  function camelize(str: string) {
+    return str.replace(/\W+(.)/g, function(match, chr) {
+      return chr.toUpperCase();
+    });
+  }
+
+  function uncamelize(str: string) {
+    const result = str.replace(/([A-Z])/g, " $1");
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  }
   return (
     <Box alignItems={"center"}>
-      <FormControl>
-        {!collectionData.done && (
-          <Stack gap={2}>
-            <Typography variant="h5" noWrap>
-              What is the name of your collection?
-            </Typography>
+      {!collectionData.done && (
+        <Stack gap={2}>
+          <Typography variant="h5" noWrap>
+            Start by naming your token collection template:
+          </Typography>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <TextField
               id="collection-name"
-              variant="standard"
+              label={'Collection Name'}
               onChange={(e) =>
                 setCollectionName({ name: e.currentTarget.value, done: false })
               }
             />
-            <SecondaryButton
-              label={"next"}
-              type="submit"
-              onClick={() => {
-                if (collectionData.name !== "") {
-                  setCollectionName({ ...collectionData, done: true });
-                }
-              }}
-            />
+          </FormControl>
+          <SecondaryButton
+            label={"next"}
+            type="submit"
+            onClick={() => {
+              if (collectionData.name !== "") {
+                setCollectionName({ ...collectionData, done: true });
+              }
+            }}
+          />
+        </Stack>
+      )}
+
+      {collectionData.done && !inputFields.done && (
+        <Stack gap={3}>
+          <Typography variant="h4" noWrap>
+            Cool! {collectionData.name}. Now name some properties you would like your template to have.
+          </Typography>
+
+          <Stack gap={3} justifyItems="start">
+            {formValues.map((element, index) => (
+              <AddInputField
+                addFormFields={addFormFields}
+                key={index}
+                name={element.name}
+                index={index}
+                onChange={(
+                  i,
+                  e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+                ) => handleChange(index, e)}
+                formValues={formValues}
+              />
+            ))}
           </Stack>
-        )}
 
-        {collectionData.done && !inputFields.done && (
-          <Stack gap={3}>
-            <Typography variant="h4" noWrap>
-              Cool! {collectionData.name} collection. What is it about?
-            </Typography>
+          <SecondaryButton
+            label={"done and next"}
+            type="submit"
+            onClick={() => {
+              setInputFields({
+                inputNames: Array.from(Object.values(formValues)).map((el) =>
+                  camelize(el.name)
+                ),
+                done: true,
+              });
+            }}
+          />
+        </Stack>
+      )}
 
-            <Stack gap={3}>
-              {formValues.map((element, index) => (
-                <AddInputField
-                  addFormFields={addFormFields}
-                  key={index}
-                  name={element.name}
-                  index={index}
-                  onChange={(
-                    i,
-                    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-                  ) => handleChange(index, e)}
-                  formValues={formValues}
-                />
-              ))}
-            </Stack>
+      {inputFields.done && (
+        <Stack gap={5}>
+          <Typography variant="h4" noWrap>
+            Customise Your Template
+          </Typography>
 
-            <SecondaryButton
-              label={"done and next"}
-              type="submit"
-              onClick={() => {
-                setInputFields({
-                  inputNames: Array.from(Object.values(formValues)).map(
-                    (el) => el.name
-                  ),
-                  done: true,
-                });
-              }}
-            />
-          </Stack>
-        )}
+          <Stack gap={5}>
+            <FormControl>
+              <>
+                <InputLabel id="badgeType">Badge Theme</InputLabel>
+                <Select
+                  labelId="badgeType"
+                  id="badgeType"
+                  value={badgeType}
+                  onChange={handleSelectChange}
+                  label="badge type"
+                >
+                  {undrawSvgsOptions.map((el, index) => (
+                    <MenuItem key={index} value={`${el.value}`}>
+                      {capitalize(el.name)}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </>
+            </FormControl>
 
-        {inputFields.done && (
-          <Stack gap={2}>
-            <Typography variant="h4" noWrap>
-              Select your badge style:
-            </Typography>
-            <>
+            <FormControl>
+              <InputLabel id="primaryColor">First Color</InputLabel>
               <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={badgeType}
-                onChange={handleSelectChange}
-                label="Badge Type"
+                labelId="primaryColor"
+                id="primaryColor"
+                value={primaryColor}
+                onChange={handlePrimaryColorChange}
+                label="primaryColor"
               >
-                {undrawSvgsOptions.map((el, index) => (
-                  <MenuItem key={index} value={el.replace(/\s/g, "")}>
-                    {el}
+                {colors.map((el, index) => (
+                  <MenuItem key={index} value={el}>
+                    {capitalize(el)}
                   </MenuItem>
                 ))}
               </Select>
-
-              <UndrawSvgs option={badgeType} />
-
-              <Stack gap={5}>
-                <TextField
-                  label={"badge title"}
-                  variant="standard"
-                  onChange={() => {}}
-                />
-                {inputFields.inputNames.map((el, index) => (
-                  <TextField
-                    label={el}
-                    variant="standard"
-                    key={index}
-                    onChange={() => {}}
-                  />
+            </FormControl>
+            <FormControl>
+              <InputLabel id="secondaryColor">Second Color</InputLabel>
+              <Select
+                labelId="secondaryColor"
+                id="secondaryColor"
+                value={secondaryColor}
+                onChange={handleSecondaryColorChange}
+                label="secondaryColor"
+              >
+                {colors.map((el, index) => (
+                  <MenuItem key={index} value={el}>
+                    {capitalize(el)}
+                  </MenuItem>
                 ))}
-              </Stack>
-            </>
+              </Select>
+            </FormControl>
+
+            <UndrawSvgs
+              option={badgeType.replace(/\s/g, "")}
+              primaryColor={primaryColor}
+              secondaryColor={secondaryColor}
+            />
+
+            <FormControl variant="standard">
+              <TextField
+                label={"Badge Title"}
+                id="badgeTitle"
+                variant="standard"
+                onChange={(e) => {
+                  setSecondFormFormValues({
+                    ...secondFormValues,
+                    svg: htmlString,
+                    badgeTitle: e.currentTarget.value,
+                  });
+                }}
+              />
+            </FormControl>
+            {inputFields.inputNames.map((el, index) => (
+              <FormControl
+                key={index}
+                variant="standard"
+              >
+                <TextField
+                  variant="standard"
+                  label={capitalize(uncamelize(el))}
+                  onChange={(e) => {
+                    setSecondFormFormValues({
+                      ...secondFormValues,
+                      svg: htmlString,
+                      [`${el}`]: e.target.value,
+                    });
+                  }}
+                />
+              </FormControl>
+            ))}
           </Stack>
-        )}
-      </FormControl>
+          <Button
+            label={"mint non-transferable token"}
+            onClick={() => {
+              // post all
+            }}
+          />
+        </Stack>
+      )}
     </Box>
   );
 };
@@ -214,26 +339,29 @@ const AddInputField: FC<AddInputFieldProps> = ({
   formValues,
 }) => {
   return (
-    <Stack justifyContent="space-around" direction={"row"}>
-      <TextField
-        id={name}
-        name={"name"}
-        variant="standard"
-        onChange={(e) => onChange(index, e)}
-      />
-      <IconButton
-        color="primary"
-        aria-label="upload picture"
-        component="span"
-        size="small"
-        onClick={() => {
-          if (formValues[index].name === "") return;
-          addFormFields();
-          onChange;
-        }}
-      >
-        <Add />
-      </IconButton>
-    </Stack>
+    <FormControl variant="standard" sx={{ m: 1 }}>
+      {" "}
+      <Stack justifyContent="center" direction={"row"} gap={5}>
+        <TextField
+          id={name}
+          name={"name"}
+          helperText={index === 0 && "Name, birthday, years in the company, date of purchase..."}
+          onChange={(e) => onChange(index, e)}
+        />
+        <IconButton
+          color="primary"
+          component="span"
+          disabled={!formValues[index].name}
+          style={{alignSelf: "center"}}
+          onClick={() => {
+            if (formValues[index].name === "") return;
+            addFormFields();
+            onChange;
+          }}
+        >
+          <Add fontSize="inherit"/>
+        </IconButton>
+      </Stack>
+    </FormControl>
   );
 };

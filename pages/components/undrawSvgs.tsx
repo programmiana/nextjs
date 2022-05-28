@@ -1,5 +1,6 @@
+import { getgid } from "process";
 import { FC } from "react";
-
+import ReactDOMServer from 'react-dom/server'
 import {
   UndrawDesigner,
   UndrawResponsive,
@@ -18,19 +19,27 @@ type UndrawSvgsProps = {
   accentColor?: string;
 };
 
+
 const UndrawSvgs: FC<UndrawSvgsProps> = ({
   option,
   primaryColor,
   secondaryColor,
   accentColor,
 }) => {
+
   switch (option) {
+    case "UndrawCloudHosting":
+      return (
+        <UndrawCloudHosting
+          primaryColor={primaryColor}
+          accentColor={secondaryColor}
+        />
+      );
     case "UndrawDesigner":
       return (
         <UndrawDesigner
           primaryColor={primaryColor}
-          secondaryColor={secondaryColor}
-          hairColor={accentColor}
+          hairColor={secondaryColor}
         />
       );
     case "UndrawResponsive":
@@ -62,13 +71,7 @@ const UndrawSvgs: FC<UndrawSvgsProps> = ({
           secondaryColor={secondaryColor}
         />
       );
-    case "UndrawCloudHosting":
-      return (
-        <UndrawCloudHosting
-          primaryColor={primaryColor}
-          secondaryColor={secondaryColor}
-        />
-      );
+
     case "UndrawGraduation":
       return (
         <UndrawGraduation
@@ -80,12 +83,10 @@ const UndrawSvgs: FC<UndrawSvgsProps> = ({
       return (
         <UndrawMindfulness
           primaryColor={primaryColor}
-          secondaryColor={secondaryColor}
-          hairColor={accentColor}
+          hairColor={secondaryColor}
         />
       );
   }
-  if (!option) return <p> not available.</p>;
   return null;
 };
 
