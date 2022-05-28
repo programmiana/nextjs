@@ -8,6 +8,7 @@
     "strict": true,
     "sourceMap": true,
     "noEmitOnError": true,
+    "noImplicitAny": false,
     "baseUrl": ".",
     "resolveJsonModule": true,
     "outDir": "out",

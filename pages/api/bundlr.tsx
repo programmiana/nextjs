@@ -16,7 +16,7 @@ import { useContext } from "react";
 //   }
 // }
 
-export async function getArweaveImage(transactionId) {
+export async function getArweaveImage(transactionId: string) {
   return new Promise((resolve, reject) => {
     const key = {
       kty: "RSA",

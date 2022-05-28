@@ -22,7 +22,7 @@ import { resolve } from "node:path/win32";
 const List: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
   //   const router = useRouter();
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any[] | null>(null);
 
   // Todo load data from the chain.
 
@@ -68,7 +68,7 @@ const List: FC = ({}) => {
       <h1>My Created SBT Collections</h1>
       <ul style={{ listStyleType: "none" }}>
         {data.map((entry, i) => (
-          <li>
+          <li key={entry.metadata.symbol}>
             <Link href={`/your-collection/${entry.metadata.symbol}`}>
               <span>
                 <div dangerouslySetInnerHTML={{ __html: entry.image }} />
