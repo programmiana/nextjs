@@ -14,7 +14,6 @@ const YourCollection: FC = ({}) => {
   useEffect(() => {
     setData(JSON.parse(templateData!));
   }, [templateData]);
-  console.log(data);
 
   if (!data) return <p>Loading...</p>;
 

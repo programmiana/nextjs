@@ -187,6 +187,7 @@ const CreateCollection: FC = ({}) => {
           </FormControl>
           <SecondaryButton
             label={"next"}
+            disabled={!collectionData.name}
             type="submit"
             onClick={() => {
               if (collectionData.name !== "") {
@@ -200,7 +201,7 @@ const CreateCollection: FC = ({}) => {
       {collectionData.done && !inputFields.done && (
         <Stack gap={3 } sx={{ m: 1}}>
           <Typography variant="h4">
-            Cool! {collectionData.name}. 
+            Cool, {collectionData.name}. 
             Now name some properties you would like
             your template to have:
           </Typography>
@@ -334,7 +335,7 @@ const CreateCollection: FC = ({}) => {
             ))}
           </Stack>
           <Button
-            label={"mint non-transferable tsoken"}
+            label={"mint non-transferable token"}
             onClick={() => {
               sessionStorage.setItem(
                 "templateData",

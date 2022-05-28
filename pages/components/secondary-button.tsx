@@ -11,7 +11,8 @@ import { Button, Stack } from "@mui/material";
 type ButtonProps = {
   label: string;
   onClick: () => void;
-  type?: "button" | "submit" | "reset"
+  type?: "button" | "submit" | "reset",
+  disabled?: boolean
 };
 
 const StyledAppBar = styled(AppBar)`
@@ -27,8 +28,8 @@ const StyledButton = styled(Button)`
     color: deeppink;
   }
 `;
-const SecondaryButton: FC<ButtonProps> = ({ label, onClick, type }) => {
-  return <StyledButton type={type} onClick={onClick} variant="text">{label}</StyledButton>;
+const SecondaryButton: FC<ButtonProps> = ({ label, onClick, type, disabled }) => {
+  return <StyledButton disabled={disabled} type={type} onClick={onClick} variant="text">{label}</StyledButton>;
 };
 
 export default SecondaryButton;

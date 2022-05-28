@@ -68,7 +68,6 @@ function WalletProvider({ children }: any) {
 function useWallet() {
   const context = useContext(WalletContext);
 
-  console.log(context);
   if (context === undefined) {
     throw new Error("useWallet must be used within a WalletProvider");
   }
