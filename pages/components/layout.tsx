@@ -13,6 +13,7 @@ import config from "../../config";
 import * as nearAPI from "near-api-js";
 import { useWallet, WalletProvider } from "./wallet-context";
 import SecondaryButton from "./secondary-button";
+import { useBundlr } from "hooks/useBundlr";
 declare var window: any;
 
 type LayoutProps = {
@@ -30,6 +31,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const { wallet, setConnectWallet } = useWallet();
 
   const accountId = wallet.getAccountId();
+  const bundlr = useBundlr(wallet)
+
   return (
     <Box>
       <StyledAppBar position="static">
