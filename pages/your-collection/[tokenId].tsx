@@ -28,7 +28,7 @@ const YourCollection: FC = ({}) => {
       tokenContractMethods
     ) as TokenContractWithMethods;
 
-    await mintNTT(useTokenContract, {}, "");
+    await mintNTT(useTokenContract, {}, input);
   }
 
   const templateData = sessionStorage.getItem("templateData");
@@ -43,20 +43,26 @@ const YourCollection: FC = ({}) => {
       <Typography variant="h4" noWrap color={"purple"}>
         {data.badgeTitle}
       </Typography>
+      <UndrawSvgs option={data.svgName.replace(/\s/g, "")} />
+      <hr />
       <div>
-        <b>Mint a new NFT</b>
-        <TextField
-          id="collection-name"
-          label={"near account name"}
-          value={input}
-          onChange={(e) => setInput(e.currentTarget.value)}
-        />
+        <div>
+          <h2>Mint a new NFT</h2>
+        </div>
+        <div>
+          {" "}
+          <TextField
+            id="collection-name"
+            label={"near account name"}
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
+          />
+        </div>
         <Button
           label={"Mint Soulbound token to address"}
           onClick={() => mint()}
         />
       </div>
-      <UndrawSvgs option={data.svgName.replace(/\s/g, "")} />
     </Box>
   );
 };

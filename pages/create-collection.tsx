@@ -152,7 +152,7 @@ const CreateCollection: FC = ({}) => {
       config.factoryContractAccount,
       factoryContractMethods
     ) as FactoryContractWithMethods;
-    const tokenId = `a-${Math.random()
+    const tokenId = `a${Math.random()
       .toString()
       .slice(3)}`;
     setCreationState(
@@ -417,7 +417,7 @@ const CreateCollection: FC = ({}) => {
             ))}
           </Stack>
           <Button
-            label={"mint non-transferable token"}
+            label={"Create your soulbound token collection"}
             onClick={() => {
               setPostValue(
                 JSON.stringify({
