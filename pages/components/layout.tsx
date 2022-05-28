@@ -3,7 +3,6 @@ import { Stack } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { useBundlr } from "hooks/useBundlr";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
@@ -29,7 +28,6 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const { wallet, setConnectWallet } = useWallet();
 
   const accountId = wallet.getAccountId();
-  const bundlr = useBundlr(wallet);
 
   return (
     <Box>

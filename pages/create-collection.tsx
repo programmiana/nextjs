@@ -17,12 +17,7 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import {
-  createTx,
-  fundBundlr,
-  getBundlr,
-  uploadImageToArweave,
-} from "./api/bundlr";
+import { uploadImageToArweave } from "./api/bundlr";
 import Button from "./components/button";
 import SecondaryButton from "./components/secondary-button";
 import UndrawSvgs from "./components/undrawSvgs";
@@ -81,6 +76,9 @@ const undrawSvgsOptions = [
 
 const CreateCollection: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
+  // useEffect(() => {
+  //   if (wallet) uploadImageToArweave();
+  // }, [wallet]);
   const [creationState, setCreationState] = useLocalStorage(
     "creationState",
     ""
@@ -144,7 +142,7 @@ const CreateCollection: FC = ({}) => {
     event?: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     event?.preventDefault();
-    alert(JSON.stringify(formValues));
+    // alert(JSON.stringify(formValues));
 
     const userAccount = wallet!.account();
     const userUseFactoryContract = new Contract(
@@ -155,13 +153,16 @@ const CreateCollection: FC = ({}) => {
     const tokenId = `a${Math.random()
       .toString()
       .slice(3)}`;
-    setCreationState(
-      JSON.stringify({
-        tokenId: tokenId,
-        tokenName: collectionData.name,
-      })
+
+    const htmlString = ReactDOMServer.renderToString(
+      <UndrawSvgs
+        option={badgeType.replace(/\s/g, "")}
+        primaryColor={primaryColor}
+        secondaryColor={secondaryColor}
+      />
     );
-    const imageUrlInArweave = await uploadImageToArweave(wallet);
+    console.log(htmlString);
+    const imageUrlInArweave = await uploadImageToArweave(htmlString);
 
     // Sends user to near website
     await createNTTCollection(
@@ -171,17 +172,18 @@ const CreateCollection: FC = ({}) => {
       {
         name: collectionData.name,
         symbol: tokenId,
+        icon: imageUrlInArweave,
+      },
+      () => {
+        setCreationState(
+          JSON.stringify({
+            tokenId: tokenId,
+            tokenName: collectionData.name,
+          })
+        );
       }
     );
   };
-
-  const htmlString = ReactDOMServer.renderToString(
-    <UndrawSvgs
-      option={badgeType.replace(/\s/g, "")}
-      primaryColor={primaryColor}
-      secondaryColor={secondaryColor}
-    />
-  );
 
   function camelize(str: string) {
     return str.replace(/\W+(.)/g, function(match, chr) {
@@ -209,48 +211,48 @@ const CreateCollection: FC = ({}) => {
     );
   }, [inputFields, secondFormValues, primaryColor, collectionData, badgeType]);
 
-  const [bundlrData, setBundlrData] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = getBundlr(wallet);
-      setBundlrData(bundlrData);
-    };
-    fetchData().catch((e) => console.log(e));
-  }, []);
+  // const [bundlrData, setBundlrData] = useState();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = getBundlr(wallet);
+  //     setBundlrData(bundlrData);
+  //   };
+  //   fetchData().catch((e) => console.log(e));
+  // }, []);
 
-  useEffect(() => {
-    if (!bundlrData) return;
-    setIsPosting(true);
-    const fetchData = async () => {
-      const funded = await fundBundlr(bundlrData, postValue);
+  // useEffect(() => {
+  //   if (!bundlrData) return;
+  //   setIsPosting(true);
+  //   const fetchData = async () => {
+  //     const funded = await fundBundlr(bundlrData, postValue);
 
-      if (funded) {
-        const tx = await createTx(bundlrData, postValue, [
-          { name: "App-Name", value: "Soulbadge" },
-          { name: "Content-Type", value: "text/plain" },
-          { name: "Version", value: "1.0.1" },
-          { name: "Type", value: "post" },
-          { name: "Wallet", value: "NEAR" },
-        ]);
-        try {
-          await tx.sign();
-          await tx.upload();
-          // setPostValue("");
-          //setTopicValue("");
-          // if (onPostMessage) {
-          //   onPostMessage(tx.id);
-          // }
-        } catch (err) {
-          console.log(err);
-        }
-      } else {
-        alert("Could not fund bundlr!");
-      }
-    };
+  //     if (funded) {
+  //       const tx = await createTx(bundlrData, postValue, [
+  //         { name: "App-Name", value: "Soulbadge" },
+  //         { name: "Content-Type", value: "text/plain" },
+  //         { name: "Version", value: "1.0.1" },
+  //         { name: "Type", value: "post" },
+  //         { name: "Wallet", value: "NEAR" },
+  //       ]);
+  //       try {
+  //         await tx.sign();
+  //         await tx.upload();
+  //         // setPostValue("");
+  //         //setTopicValue("");
+  //         // if (onPostMessage) {
+  //         //   onPostMessage(tx.id);
+  //         // }
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     } else {
+  //       alert("Could not fund bundlr!");
+  //     }
+  //   };
 
-    fetchData();
-    setIsPosting(false);
-  }, [postValue, bundlrData]);
+  //   fetchData();
+  //   setIsPosting(false);
+  // }, [postValue, bundlrData]);
 
   return (
     <Box sx={{ p: 2 }} alignItems={"center"}>
@@ -440,11 +442,11 @@ const CreateCollection: FC = ({}) => {
                 })
               );
 
-              console.log(secondFormValues);
-              router.push({
-                pathname: "/your-collection",
-                query: { data: JSON.stringify(secondFormValues) },
-              });
+              // console.log(secondFormValues);
+              // router.push({
+              //   pathname: "/your-collection",
+              //   query: { data: JSON.stringify(secondFormValues) },
+              // });
               // post all
               handleSubmit();
             }}

@@ -7,7 +7,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@bundlr-network/client": "^0.7.5",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",
@@ -21,6 +20,7 @@
     "next": "^12.1.6",
     "react": "18.0.0",
     "react-color": "^2.19.3",
+    "react-dom": "^18.1.0",
     "react-undraw-illustrations": "^2.0.3",
     "three": "^0.141.0",
     "troika-three-text": "^0.46.4",

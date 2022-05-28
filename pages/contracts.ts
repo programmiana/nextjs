@@ -168,7 +168,8 @@ export async function createNTTCollection(
   factoryContractUser: FactoryContractWithMethods,
   ownerAccountId: any,
   userAccount: Account,
-  metadata = {}
+  metadata = {},
+  cb
 ) {
   const args = {
     owner_id: ownerAccountId,
@@ -188,7 +189,9 @@ export async function createNTTCollection(
       account_id: ownerAccountId,
     })
   );
+  alert(requiredDeposit.toString());
   if (requiredDeposit.eq(0)) {
+    cb();
     // We have enough $$! Awesome
     await factoryContractUser.create_token({
       args: {
@@ -202,22 +205,22 @@ export async function createNTTCollection(
     //TODO: This branch of the if doesn't quite work
     // ls(lsKeyToken, args);
     // ls(lsKeyCreateToken, true);
-    await userAccount.signAndSendTransaction(config.factoryContractAccount, [
-      await factoryContractUser.storage_deposit({
-        args: {},
-        // Maybe not BN( wrap)
-        gas: new BN(BoatOfGas.toFixed(0)),
-        amount: requiredDeposit.toFixed(0),
-      }),
-      await factoryContractUser.create_token({
-        args: {
-          args: {
-            ...args,
-          },
-        },
-        // Maybe not BN( wrap)
-        gas: new BN(BoatOfGas.toFixed(0)),
-      }),
-    ]);
+    // await userAccount.signAndSendTransaction(config.factoryContractAccount, [
+    await factoryContractUser.storage_deposit({
+      args: {},
+      // Maybe not BN( wrap)
+      gas: new BN(BoatOfGas.toFixed(0)),
+      amount: requiredDeposit.toFixed(0),
+    });
+    //   await factoryContractUser.create_token({
+    //     args: {
+    //       args: {
+    //         ...args,
+    //       },
+    //     },
+    //     // Maybe not BN( wrap)
+    //     gas: new BN(BoatOfGas.toFixed(0)),
+    //   }),
+    // ]);
   }
 }
