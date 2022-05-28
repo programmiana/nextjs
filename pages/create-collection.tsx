@@ -1,9 +1,11 @@
 import Add from "@mui/icons-material/Add";
 import {
   Box,
-  capitalize, InputLabel, MenuItem,
+  capitalize,
+  InputLabel,
+  MenuItem,
   Select,
-  SelectChangeEvent
+  SelectChangeEvent,
 } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
@@ -21,7 +23,7 @@ import { WalletContext } from "./components/wallet-context";
 import {
   config,
   factoryContractMethods,
-  FactoryContractWithMethods
+  FactoryContractWithMethods,
 } from "./contracts";
 
 const colors = [
@@ -116,7 +118,6 @@ const CreateCollection: FC = ({}) => {
     }
   };
 
-  console.log(secondFormValues);
   let addFormFields = () => {
     setFormValues([...formValues, { name: "" }]);
   };
@@ -233,22 +234,20 @@ const CreateCollection: FC = ({}) => {
 
           <Stack gap={5}>
             <FormControl>
-              <>
-                <InputLabel id="badgeType">Badge Theme</InputLabel>
-                <Select
-                  labelId="badgeType"
-                  id="badgeType"
-                  value={badgeType}
-                  onChange={handleSelectChange}
-                  label="badge type"
-                >
-                  {undrawSvgsOptions.map((el, index) => (
-                    <MenuItem key={index} value={`${el.value}`}>
-                      {capitalize(el.name)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </>
+              <InputLabel id="badgeType">Badge Theme</InputLabel>
+              <Select
+                labelId="badgeType"
+                id="badgeType"
+                value={badgeType}
+                onChange={handleSelectChange}
+                label="badge type"
+              >
+                {undrawSvgsOptions.map((el, index) => (
+                  <MenuItem key={index} value={`${el.value}`}>
+                    {capitalize(el.name)}
+                  </MenuItem>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl>
@@ -298,7 +297,6 @@ const CreateCollection: FC = ({}) => {
                 onChange={(e) => {
                   setSecondFormFormValues({
                     ...secondFormValues,
-                    svg: htmlString,
                     badgeTitle: e.currentTarget.value,
                   });
                 }}
@@ -312,7 +310,6 @@ const CreateCollection: FC = ({}) => {
                   onChange={(e) => {
                     setSecondFormFormValues({
                       ...secondFormValues,
-                      svg: htmlString,
                       [`${el}`]: e.target.value,
                     });
                   }}
@@ -321,9 +318,24 @@ const CreateCollection: FC = ({}) => {
             ))}
           </Stack>
           <Button
-            label={"mint non-transferable token"}
+            label={"mint non-transferable tsoken"}
             onClick={() => {
-              router.push('/your-collection')
+              sessionStorage.setItem(
+                "templateData",
+                JSON.stringify({
+                  ...inputFields.inputNames,
+                  ...secondFormValues,
+                  primaryColor,
+                  svgName: badgeType,
+                  collectionName: collectionData.name,
+                })
+              );
+
+              console.log(secondFormValues);
+              router.push({
+                pathname: "/your-collection",
+                query: { data: JSON.stringify(secondFormValues) },
+              });
               // post all
             }}
           />
@@ -360,6 +372,7 @@ const AddInputField: FC<AddInputFieldProps> = ({
         <TextField
           id={name}
           name={"name"}
+          fullWidth
           helperText={
             index === 0 &&
             "Name, birthday, years in the company, date of purchase..."
