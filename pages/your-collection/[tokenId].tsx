@@ -4,20 +4,23 @@ import { Contract } from "near-api-js/lib/contract";
 import {
   config,
   mintNTT,
+  getToken,
   TokenContractWithMethods,
   tokenContractMethods,
+  FactoryContractWithMethods,
+  factoryContractMethods,
+  getSouls,
 } from "../contracts";
 import { useRouter } from "next/router";
 import { FC, useContext, useEffect, useState } from "react";
 import UndrawSvgs from "../components/undrawSvgs";
 import { WalletContext } from "../components/wallet-context";
-import Button from "../components/button";
+import SecondaryButton from "../components/secondary-button";
 import TextField from "@mui/material/TextField";
 
 const YourCollection: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
   const router = useRouter();
-  const [data, setData] = useState<any>();
   const [input, setInput] = useState("");
   // Todo load data from the chain.
 
@@ -30,20 +33,55 @@ const YourCollection: FC = ({}) => {
 
     await mintNTT(useTokenContract, {}, input);
   }
+  const [data, setData] = useState(null);
+  const [souls, setSouls] = useState(null);
 
-  const templateData = sessionStorage.getItem("templateData");
+  // Todo load data from the chain.
+
+  async function fetchSouls() {
+    const userAccount = wallet!.account();
+    const userUseTokenContract = new Contract(
+      userAccount,
+      `${router.query.tokenId}.${config.factoryContractAccount}`,
+      tokenContractMethods
+    ) as TokenContractWithMethods;
+
+    const newdata = await getSouls(userUseTokenContract, {
+      from_index: "0",
+      limit: 100,
+    });
+    setSouls(newdata);
+    console.log(newdata);
+  }
+
+  async function fetchContractDetails() {
+    if (!router.query.tokenId) return;
+    const userAccount = wallet!.account();
+    const userUseFactoryContract = new Contract(
+      userAccount,
+      config.factoryContractAccount,
+      factoryContractMethods
+    ) as FactoryContractWithMethods;
+    const newdata = await getToken(userUseFactoryContract, {
+      token_id: router.query.tokenId,
+    });
+    setData(newdata);
+    console.log(newdata);
+    fetchSouls();
+  }
+
   useEffect(() => {
-    setData(JSON.parse(templateData!));
-  }, [templateData]);
-  console.log(data);
+    fetchContractDetails();
+  }, [router.query.tokenId]);
 
-  if (!data) return <p>Loading...</p>;
+  if (!data) return <div>Loading</div>;
+
   return (
     <Box alignItems={"center"}>
       <Typography variant="h4" noWrap color={"purple"}>
-        {data.badgeTitle}
+        {data.metadata.name}
       </Typography>
-      <UndrawSvgs option={data.svgName.replace(/\s/g, "")} />
+      {/* <UndrawSvgs option={data.svgName.replace(/\s/g, "")} /> */}
       <hr />
       <div>
         <div>
@@ -58,11 +96,22 @@ const YourCollection: FC = ({}) => {
             onChange={(e) => setInput(e.currentTarget.value)}
           />
         </div>
-        <Button
+        <SecondaryButton
           label={"Mint Soulbound token to address"}
           onClick={() => mint()}
         />
       </div>
+      <hr />
+      <h2>Existing Souls of your collection</h2>
+      {souls && (
+        <ul>
+          {souls.map((soul) => (
+            <li>
+              {soul.owner_id} id:{soul.token_id}
+            </li>
+          ))}
+        </ul>
+      )}
     </Box>
   );
 };

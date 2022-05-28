@@ -48,6 +48,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
           style={{ backgroundColor: "black", height: "100vh" }}
         ></Grid>
         <Grid xs={8} item>
+          {accountId && <Link href="/list">My collections</Link>}
           {accountId && (
             <SecondaryButton
               label={"sign out"}
