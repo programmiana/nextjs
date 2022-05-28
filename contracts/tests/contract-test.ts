@@ -196,7 +196,6 @@ async function test() {
     aliceAccount.accountId,
     {}
   );
-  // FIXME: Where is this contract??
   const aliceUseTokenContract = new Contract(
     aliceAccount,
     "bop.ntt_simple.test.near",
@@ -322,11 +321,11 @@ async function test() {
     });
     console.log("4");
 
-    const aliceUseTokenContract = new Contract(
-      aliceAccount,
-      "bop.ntt_simple.test.near",
-      tokenContractMethods
-    ) as TokenContractWithMethods;
+    // const aliceUseTokenContract = new Contract(
+    //   aliceAccount,
+    //   "bop.ntt_simple.test.near",
+    //   tokenContractMethods
+    // ) as TokenContractWithMethods;
 
     // Initialize
     // await aliceUseTokenContract.new_default_meta({

@@ -57,12 +57,14 @@ Done deploying to dev-1653662015557-68385594308308
 
 # Deployment 2 (newest)
 
-❯ near dev-deploy --wasmFile ./token/build-output/main.wasm --helperUrl https://near-contract-helper.onrender.com
+❯ near dev-deploy --accountId token-factory-nftberlin.testnet --wasmFile ./token/build-output/main.wasm --helperUrl https://near-contract-helper.onrender.com
 Starting deployment. Account id: dev-1653697225261-53906288097280, node: https://rpc.testnet.near.org, helper: https://near-contract-helper.onrender.com, file: ./token/build-output/main.wasm
 Transaction Id 32HxB7YbKeVK2Jzm3PWkNGfxq1GsEJ2UVEWjgbfLhhsX
 To see the transaction in the transaction explorer, please open this url in your browser
 https://explorer.testnet.near.org/transactions/32HxB7YbKeVK2Jzm3PWkNGfxq1GsEJ2UVEWjgbfLhhsX
 Done deploying to dev-1653697225261-53906288097280
+
+near deploy --accountId token-factory-nftberlin.testnet --wasmFile out/example.wasm --initFunction new --initArgs '{"owner_id": "furlong.testnet", "total_supply": "10000000"}'
 
 ❯ near dev-deploy --wasmFile ./factory/res/token_factory.wasm --helperUrl https://near-contract-helper.onrender.com
 Starting deployment. Account id: dev-1653697225261-53906288097280, node: https://rpc.testnet.near.org, helper: https://near-contract-helper.onrender.com, file: ./factory/res/token_factory.wasm

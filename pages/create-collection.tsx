@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import ButtonExample from "../pages/components/pick-color";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import {
   UndrawDesigner,
   UndrawResponsive,
@@ -19,6 +19,13 @@ import {
 } from "react-undraw-illustrations";
 import SecondaryButton from "./components/secondary-button";
 import UndrawSvgs from "./components/undrawSvgs";
+import { WalletContext } from "./components/wallet-context";
+import { Contract } from "near-api-js/lib/contract";
+import {
+  config,
+  factoryContractMethods,
+  FactoryContractWithMethods,
+} from "./contracts";
 
 const undrawSvgsOptions = [
   "Undraw Designer",
@@ -34,9 +41,8 @@ const undrawSvgsOptions = [
 //   name?: string;
 //   address?: String;
 // };
-const CreateCollection: FC = ({
-  
-}) => {
+const CreateCollection: FC = ({}) => {
+  const { wallet } = useContext(WalletContext)!;
   const [collectionData, setCollectionName] = useState<{
     name: string;
     done: boolean;
@@ -82,6 +88,13 @@ const CreateCollection: FC = ({
   ) => {
     event.preventDefault();
     alert(JSON.stringify(formValues));
+
+    const userAccount = wallet!.account();
+    const userUseFactoryContract = new Contract(
+      userAccount,
+      config.factoryContractAccount,
+      factoryContractMethods
+    ) as FactoryContractWithMethods;
   };
 
   return (
