@@ -13,6 +13,7 @@ import React, { useEffect } from "react";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
+import { uploadImageToArweave } from "./api/bundlr";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Contract } from "near-api-js/lib/contract";
@@ -158,6 +159,7 @@ const CreateCollection: FC = ({}) => {
         tokenName: collectionData.name,
       })
     );
+    const imageUrlInArweave = await uploadImageToArweave(wallet);
     // Sends user to near website
     await createNTTCollection(
       userUseFactoryContract,
@@ -232,13 +234,11 @@ const CreateCollection: FC = ({}) => {
   //     }
   //   };
 
-
   //   fetchData();
   //   setIsPosting(false);
   // }, [postValue]);
 
-
-  console.log(wallet)
+  console.log(wallet);
 
   return (
     <Box sx={{ p: 2 }} alignItems={"center"}>
