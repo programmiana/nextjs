@@ -103,6 +103,26 @@ export const factoryContractMethods: {
   changeMethods: ["create_token", "storage_deposit"],
 };
 
+export async function getSouls(tokenContract, args) {
+  return tokenContract.nft_tokens(args);
+}
+
+export async function getToken(
+  factoryContract: FactoryContractWithMethods,
+  args
+) {
+  const tokens = await factoryContract.get_token(args);
+  return tokens;
+}
+
+export async function getTokens(
+  factoryContract: FactoryContractWithMethods,
+  args
+) {
+  const tokens = await factoryContract.get_tokens(args);
+  return tokens;
+}
+
 export async function mintNTT(
   tokenContractAsUser: TokenContractWithMethods,
   metadata: object,
