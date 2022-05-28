@@ -1,4 +1,4 @@
-import { WalletConnection } from "contract/contract-testing/node_modules/near-api-js/lib";
+import { WalletConnection } from "near-api-js/lib";
 import { useState, useEffect } from "react";
 import * as nearAPI from "near-api-js";
 import config from "config";
@@ -35,6 +35,7 @@ export function useFetchNear() {
     setWallet(walletConn);
 
     myFunction();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response, connectWallet]);
 
   const accountId = wallet?.getAccountId();
