@@ -1,27 +1,13 @@
-import styled from "@emotion/styled";
-import { Stack } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import { connect, Near, WalletConnection } from "near-api-js";
-import { useRouter } from "next/router";
-import {
-  cloneElement,
+import * as nearAPI from "near-api-js";
+import { WalletConnection } from "near-api-js";
+import React, {
   createContext,
-  Dispatch,
-  FC,
-  ReactNode,
-  SetStateAction,
+  Dispatch, SetStateAction,
   useContext,
   useEffect,
-  useState,
+  useState
 } from "react";
-import styles from "../../styles/Home.module.css";
-import PrimaryButton from "./button";
-import ObjectCanvas from "./three-object";
 import config from "../../config";
-import * as nearAPI from "near-api-js";
-import React from "react";
 
 const WalletContext = createContext<
   | {

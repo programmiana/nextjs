@@ -50,6 +50,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
               label={"sign out"}
               onClick={() => {
                 wallet?.signOut();
+                setConnectWallet(false);
                 router.push("/", undefined, {
                   shallow: true,
                 });
