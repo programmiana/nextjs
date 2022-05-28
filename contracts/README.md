@@ -73,6 +73,19 @@ To see the transaction in the transaction explorer, please open this url in your
 https://explorer.testnet.near.org/transactions/6sAWz4AFyHJd2dKZJ1atcoG8SbCBqGVz4MsaSTgxvqsK
 Done deploying to dev-1653697225261-53906288097280
 
+# Deployment 3
+
+near dev-deploy --accountId sbt-factory-nftberlin.testnet --wasmFile ./factory/res/token_factory.wasm --helperUrl https://near-contract-helper.onrender.com
+
+near deploy --accountId dev-1653697225261-53906288097280 --wasmFile ./factory/res/token_factory.wasm --initFunction new --initArgs '{"owner_id": "dev-1653697225261-53906288097280", "total_supply": "10000000"}'
+
+This account already has a deployed contract [ CwZd5ifubgngnsb6gPt2iGujq3hg28ymQmMHfgdnvQkk ]. Do you want to proceed? (y/n) y
+Starting deployment. Account id: dev-1653697225261-53906288097280, node: https://rpc.testnet.near.org, helper: https://helper.testnet.near.org, file: ./factory/res/token_factory.wasm
+Transaction Id GF7sDpeeZ6hkMHadFcfAaDdc3DyPuoEqBr1VWBMpbUbA
+To see the transaction in the transaction explorer, please open this url in your browser
+https://explorer.testnet.near.org/transactions/GF7sDpeeZ6hkMHadFcfAaDdc3DyPuoEqBr1VWBMpbUbA
+Done deploying and initializing dev-1653697225261-53906288097280
+
 # Bug issues
 
 AddrInUse

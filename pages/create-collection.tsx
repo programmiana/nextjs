@@ -23,6 +23,7 @@ import { WalletContext } from "./components/wallet-context";
 import {
   config,
   factoryContractMethods,
+  createNTTCollection,
   FactoryContractWithMethods,
 } from "./contracts";
 
@@ -128,10 +129,10 @@ const CreateCollection: FC = ({}) => {
     setFormValues(newFormValues);
   };
 
-  let handleSubmit = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  let handleSubmit = async (
+    event?: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    event.preventDefault();
+    event?.preventDefault();
     alert(JSON.stringify(formValues));
 
     const userAccount = wallet!.account();
@@ -140,6 +141,14 @@ const CreateCollection: FC = ({}) => {
       config.factoryContractAccount,
       factoryContractMethods
     ) as FactoryContractWithMethods;
+
+    await createNTTCollection(
+      userUseFactoryContract,
+      wallet.getAccountId(),
+      userAccount
+    );
+
+    console.log("Ba");
   };
 
   const htmlString = ReactDOMServer.renderToString(
@@ -344,6 +353,7 @@ const CreateCollection: FC = ({}) => {
                 query: { data: JSON.stringify(secondFormValues) },
               });
               // post all
+              handleSubmit();
             }}
           />
         </Stack>
