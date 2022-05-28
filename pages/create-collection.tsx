@@ -13,6 +13,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Contract } from "near-api-js/lib/contract";
+import { Router, useRouter } from "next/router";
 import { ChangeEvent, FC, useContext, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import Button from "./components/button";
@@ -70,16 +71,15 @@ const undrawSvgsOptions = [
     value: "Undraw Mindfulness",
   },
 ];
-// type WelcomePromptProps = {
-//   name?: string;
-//   address?: String;
-// };
+
 const CreateCollection: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
   const [collectionData, setCollectionName] = useState<{
     name: string;
     done: boolean;
   }>({ name: "", done: false });
+
+  const router = useRouter();
 
   const [inputFields, setInputFields] = useState<{
     inputNames: string[];
@@ -119,7 +119,6 @@ const CreateCollection: FC = ({}) => {
     }
   };
 
-  console.log(secondFormValues);
   let addFormFields = () => {
     setFormValues([...formValues, { name: "" }]);
   };
@@ -244,22 +243,20 @@ const CreateCollection: FC = ({}) => {
 
           <Stack gap={5}>
             <FormControl>
-              <>
-                <InputLabel id="badgeType">Badge Theme</InputLabel>
-                <Select
-                  labelId="badgeType"
-                  id="badgeType"
-                  value={badgeType}
-                  onChange={handleSelectChange}
-                  label="badge type"
-                >
-                  {undrawSvgsOptions.map((el, index) => (
-                    <MenuItem key={index} value={`${el.value}`}>
-                      {capitalize(el.name)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </>
+              <InputLabel id="badgeType">Badge Theme</InputLabel>
+              <Select
+                labelId="badgeType"
+                id="badgeType"
+                value={badgeType}
+                onChange={handleSelectChange}
+                label="badge type"
+              >
+                {undrawSvgsOptions.map((el, index) => (
+                  <MenuItem key={index} value={`${el.value}`}>
+                    {capitalize(el.name)}
+                  </MenuItem>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl>
@@ -309,7 +306,6 @@ const CreateCollection: FC = ({}) => {
                 onChange={(e) => {
                   setSecondFormFormValues({
                     ...secondFormValues,
-                    svg: htmlString,
                     badgeTitle: e.currentTarget.value,
                   });
                 }}
@@ -323,7 +319,6 @@ const CreateCollection: FC = ({}) => {
                   onChange={(e) => {
                     setSecondFormFormValues({
                       ...secondFormValues,
-                      svg: htmlString,
                       [`${el}`]: e.target.value,
                     });
                   }}
@@ -332,8 +327,24 @@ const CreateCollection: FC = ({}) => {
             ))}
           </Stack>
           <Button
-            label={"mint non-transferable token"}
+            label={"mint non-transferable tsoken"}
             onClick={() => {
+              sessionStorage.setItem(
+                "templateData",
+                JSON.stringify({
+                  ...inputFields.inputNames,
+                  ...secondFormValues,
+                  primaryColor,
+                  svgName: badgeType,
+                  collectionName: collectionData.name,
+                })
+              );
+
+              console.log(secondFormValues);
+              router.push({
+                pathname: "/your-collection",
+                query: { data: JSON.stringify(secondFormValues) },
+              });
               // post all
               handleSubmit();
             }}
@@ -371,6 +382,7 @@ const AddInputField: FC<AddInputFieldProps> = ({
         <TextField
           id={name}
           name={"name"}
+          fullWidth
           helperText={
             index === 0 &&
             "Name, birthday, years in the company, date of purchase..."

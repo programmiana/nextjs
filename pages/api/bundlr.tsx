@@ -1,8 +1,11 @@
 import { WebBundlr } from "@bundlr-network/client/build/web";
+import { useContext } from "react";
+import { WalletContext } from "pages/components/wallet-context";
 // import { getWallet } from  need to get the wallet address from the connection from NEAR 
 
 const getBundlr = async () => {
-    const wallet = await getWallet()
+    const { wallet } = useContext(WalletContext)!;
+   // const wallet = await getWallet()
     const bundlr = new WebBundlr(
       "https://node1.bundlr.network",
       "near",
@@ -10,11 +13,13 @@ const getBundlr = async () => {
     );
     await bundlr.ready();
     return bundlr
+    console.log("tx created");
   }
 
   export const createTx = async (text, tags) => {
     const bundlr = await getBundlr()
     return await bundlr.createTransaction(text, { tags })
+    console.log("tx created");
   }
 
 
