@@ -13,7 +13,7 @@ import {
   createNTTCollection,
   FactoryContractWithMethods,
   getTokens,
-} from "./contracts";
+} from "../contracts";
 import Link from "next/link";
 import { getArweaveImage } from "./api/bundlr";
 import Image from "next/image";

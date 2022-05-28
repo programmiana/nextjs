@@ -27,7 +27,7 @@ import {
   createNTTCollection,
   factoryContractMethods,
   FactoryContractWithMethods,
-} from "./contracts";
+} from "../contracts";
 
 const colors = [
   "deeppink",

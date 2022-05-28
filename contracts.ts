@@ -213,7 +213,7 @@ export async function fundAccount(
     args: {},
     // Maybe not BN( wrap)
     gas: new BN(BoatOfGas.toFixed(0)),
-    attachedDeposit: requiredDeposit.times(10).toFixed(0),
+    attachedDeposit: requiredDeposit.times(10).toFixed(0) as any,
     amount: requiredDeposit.times(10).toFixed(0),
   });
 }

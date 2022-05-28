@@ -17,7 +17,9 @@ const fs = require("fs").promises;
 export const OneNear = Big(10).pow(24);
 const TGas = Big(10).pow(12);
 export const BoatOfGas = Big(300).mul(TGas);
-const RefStorageDeposit = Big(250).mul(Big(10).pow(19)).add(1);
+const RefStorageDeposit = Big(250)
+  .mul(Big(10).pow(19))
+  .add(1);
 const StorageDeposit = Big(125).mul(Big(10).pow(19));
 const PoolStorageDeposit = Big(500).mul(Big(10).pow(19));
 
@@ -52,13 +54,15 @@ interface TokenContractWithMethods extends Contract {
   nft_mint: ChangeFunctionType;
 }
 
-function getConfig(env): {
+function getConfig(
+  env
+): {
   networkId: string;
   nodeUrl: string;
   masterAccount: string;
   factoryContractAccount: string;
   keyPath: string;
-} {
+} | void {
   switch (env) {
     case "sandbox":
     case "local":
@@ -297,7 +301,7 @@ async function test() {
     console.log("2");
     await factoryContractUser.storage_deposit({
       args: {},
-      gas: BoatOfGas.toFixed(0),
+      gas: BoatOfGas.toFixed(0) as any,
       amount: requiredDeposit.toFixed(0),
     });
     console.log("3");
@@ -317,7 +321,7 @@ async function test() {
           },
         },
       },
-      gas: BoatOfGas.toFixed(0),
+      gas: BoatOfGas.toFixed(0) as any,
     });
     console.log("4");
 

@@ -16,7 +16,7 @@ import {
   factoryContractMethods,
   fundAccount,
   FactoryContractWithMethods,
-} from "./contracts";
+} from "../contracts";
 import { Contract } from "near-api-js/lib/contract";
 
 type WelcomePromptProps = {

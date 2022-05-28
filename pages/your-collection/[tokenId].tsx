@@ -10,7 +10,7 @@ import {
   FactoryContractWithMethods,
   factoryContractMethods,
   getSouls,
-} from "../contracts";
+} from "../../contracts";
 import { useRouter } from "next/router";
 import { FC, useContext, useEffect, useState } from "react";
 import UndrawSvgs from "../components/undrawSvgs";
@@ -35,8 +35,8 @@ const YourCollection: FC = ({}) => {
     await mintNTT(useTokenContract, {}, input);
   }
   const [image, setImage] = useState("");
-  const [data, setData] = useState(null);
-  const [souls, setSouls] = useState(null);
+  const [data, setData] = useState<any>(null);
+  const [souls, setSouls] = useState<any>(null);
 
   // Todo load data from the chain.
 
@@ -90,7 +90,7 @@ const YourCollection: FC = ({}) => {
   return (
     <Box alignItems={"center"}>
       <Typography variant="h4" noWrap color={"purple"}>
-        {data.metadata.name}
+        {data?.metadata.name}
       </Typography>
       <div dangerouslySetInnerHTML={{ __html: image }} />
 
@@ -119,7 +119,7 @@ const YourCollection: FC = ({}) => {
       {souls && (
         <ul>
           {souls.map((soul) => (
-            <li>
+            <li key={soul.token_id}>
               {soul.owner_id} id:{soul.token_id}
             </li>
           ))}

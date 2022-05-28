@@ -75,3 +75,5 @@ function useWallet() {
 }
 
 export { WalletProvider, useWallet };
+
+export default WalletProvider;

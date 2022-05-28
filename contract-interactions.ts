@@ -37,13 +37,15 @@ interface ContractWithMethods extends Contract {
 // ...
 // });
 
-function getConfig(env): {
+function getConfig(
+  env
+): {
   networkId: string;
   nodeUrl: string;
   masterAccount: string;
   contractAccount: string;
   keyPath: string;
-} {
+} | void {
   switch (env) {
     case "sandbox":
     case "local":
