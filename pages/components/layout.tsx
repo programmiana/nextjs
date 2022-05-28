@@ -8,8 +8,12 @@ import { FC, ReactNode } from "react";
 import styles from "../../styles/Home.module.css";
 import PrimaryButton from "../components/button";
 import SecondaryButton from "./secondary-button";
+<<<<<<< HEAD
 import ObjectCanvas from "./three-object";
 import { useWallet } from "./wallet-context";
+=======
+import { useBundlr } from "hooks/useBundlr";
+>>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
 declare var window: any;
 
 type LayoutProps = {
@@ -27,6 +31,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   const { wallet, setConnectWallet } = useWallet();
 
   const accountId = wallet.getAccountId();
+  const bundlr = useBundlr(wallet)
+
   return (
     <Box>
       <StyledAppBar position="static">

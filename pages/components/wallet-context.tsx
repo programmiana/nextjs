@@ -2,14 +2,15 @@ import * as nearAPI from "near-api-js";
 import { WalletConnection } from "near-api-js";
 import React, {
   createContext,
-  Dispatch, SetStateAction,
+  Dispatch,
+  SetStateAction,
   useContext,
   useEffect,
-  useState
+  useState,
 } from "react";
 import config from "../../config";
 
-const WalletContext = createContext<
+export const WalletContext = createContext<
   | {
       setConnectWallet: Dispatch<SetStateAction<boolean>>;
       wallet: WalletConnection;
@@ -50,7 +51,7 @@ function WalletProvider({ children }: any) {
     setWallet(walletConn);
 
     myFunction();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response, connectWallet]);
 
   const accountId = wallet?.getAccountId();

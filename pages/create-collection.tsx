@@ -12,11 +12,36 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+<<<<<<< HEAD
 import { ChangeEvent, FC, useState } from "react";
+=======
+import ButtonExample from "../pages/components/pick-color";
+import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
+import {
+  UndrawDesigner,
+  UndrawResponsive,
+  UndrawAgreement,
+  UndrawAppreciation,
+  UndrawAstronaut,
+  UndrawCloudHosting,
+  UndrawGraduation,
+  UndrawMindfulness,
+} from "react-undraw-illustrations";
+>>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
 import SecondaryButton from "./components/secondary-button";
 import Button from "./components/button";
 import UndrawSvgs from "./components/undrawSvgs";
+<<<<<<< HEAD
 import ReactDOMServer from "react-dom/server";
+=======
+import { WalletContext } from "./components/wallet-context";
+import { Contract } from "near-api-js/lib/contract";
+import {
+  config,
+  factoryContractMethods,
+  FactoryContractWithMethods,
+} from "./contracts";
+>>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
 
 const colors = [
   "deeppink",
@@ -62,8 +87,17 @@ const undrawSvgsOptions = [
     value: "Undraw Mindfulness",
   },
 ];
+<<<<<<< HEAD
 
 const CreateCollection: FC = ({}) => {
+=======
+// type WelcomePromptProps = {
+//   name?: string;
+//   address?: String;
+// };
+const CreateCollection: FC = ({}) => {
+  const { wallet } = useContext(WalletContext)!;
+>>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
   const [collectionData, setCollectionName] = useState<{
     name: string;
     done: boolean;
@@ -123,6 +157,13 @@ const CreateCollection: FC = ({}) => {
   ) => {
     event.preventDefault();
     alert(JSON.stringify(formValues));
+
+    const userAccount = wallet!.account();
+    const userUseFactoryContract = new Contract(
+      userAccount,
+      config.factoryContractAccount,
+      factoryContractMethods
+    ) as FactoryContractWithMethods;
   };
 
   const htmlString = ReactDOMServer.renderToString(

@@ -1,20 +1,8 @@
 # Todos
 
-- [ ] Write tests
-- [ ] Confirm near token creation mechanisms
 - [ ] Implement burning
 - [ ] Implement revoking
 - [ ] EVENT_JSON needs updating
-- [ ] FIXME: NFTContractMetadata {
-      spec: "nft-1.0.0".to_string(),
-      name: "NFT Tutorial Contract".to_string(),
-      symbol: "GOTEAM".to_string(),
-      icon: None,
-      base_uri: None,
-      reference: None,
-      reference_hash: None,
-      },
-      )
 
 # Smart contracts
 
@@ -56,7 +44,8 @@ near call ntt_simple set_status '{"message": "aloha!"}' --accountId ntt_simple
 
 # Deploy to testnet
 
-near dev-deploy --wasmFile build-output/main.wasm --helperUrl https://near-contract-helper.onrender.com
+near dev-deploy --wasmFile ./token/build-output/main.wasm --helperUrl https://near-contract-helper.onrender.com
+near dev-deploy --wasmFile ./factory/res/token_factory.wasm --helperUrl https://near-contract-helper.onrender.com
 
 ## Deployment 1
 
@@ -65,6 +54,24 @@ Transaction Id EzkjUTbdAajgfhF9vVQeVUoYtQ2AjH2eA8RBcoNZ2SdC
 To see the transaction in the transaction explorer, please open this url in your browser
 https://explorer.testnet.near.org/transactions/EzkjUTbdAajgfhF9vVQeVUoYtQ2AjH2eA8RBcoNZ2SdC
 Done deploying to dev-1653662015557-68385594308308
+
+# Deployment 2 (newest)
+
+❯ near dev-deploy --accountId token-factory-nftberlin.testnet --wasmFile ./token/build-output/main.wasm --helperUrl https://near-contract-helper.onrender.com
+Starting deployment. Account id: dev-1653697225261-53906288097280, node: https://rpc.testnet.near.org, helper: https://near-contract-helper.onrender.com, file: ./token/build-output/main.wasm
+Transaction Id 32HxB7YbKeVK2Jzm3PWkNGfxq1GsEJ2UVEWjgbfLhhsX
+To see the transaction in the transaction explorer, please open this url in your browser
+https://explorer.testnet.near.org/transactions/32HxB7YbKeVK2Jzm3PWkNGfxq1GsEJ2UVEWjgbfLhhsX
+Done deploying to dev-1653697225261-53906288097280
+
+near deploy --accountId token-factory-nftberlin.testnet --wasmFile out/example.wasm --initFunction new --initArgs '{"owner_id": "furlong.testnet", "total_supply": "10000000"}'
+
+❯ near dev-deploy --wasmFile ./factory/res/token_factory.wasm --helperUrl https://near-contract-helper.onrender.com
+Starting deployment. Account id: dev-1653697225261-53906288097280, node: https://rpc.testnet.near.org, helper: https://near-contract-helper.onrender.com, file: ./factory/res/token_factory.wasm
+Transaction Id 6sAWz4AFyHJd2dKZJ1atcoG8SbCBqGVz4MsaSTgxvqsK
+To see the transaction in the transaction explorer, please open this url in your browser
+https://explorer.testnet.near.org/transactions/6sAWz4AFyHJd2dKZJ1atcoG8SbCBqGVz4MsaSTgxvqsK
+Done deploying to dev-1653697225261-53906288097280
 
 # Bug issues
 
