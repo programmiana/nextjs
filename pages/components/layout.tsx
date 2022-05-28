@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { GitHub } from "@mui/icons-material";
 import { Stack } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -11,6 +12,7 @@ import PrimaryButton from "../components/button";
 import SecondaryButton from "./secondary-button";
 import ObjectCanvas from "./three-object";
 import { useWallet } from "./wallet-context";
+
 declare var window: any;
 
 type LayoutProps = {
@@ -32,6 +34,11 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <Box>
       <StyledAppBar position="static">
+        <Link href="https://github.com/programmiana/nextjs">
+          <div>
+            <GitHub fontSize="inherit" /> Github Repo
+          </div>
+        </Link>
         <Stack spacing={0} alignItems="center">
           <Link href="/">
             <h1 className={styles.title}>SoulBadge</h1>
@@ -90,11 +97,13 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         ></Grid>
       </Grid>
       <footer
-        style={{ backgroundColor: "black", width: "100vw", border: "none" }}
+        style={{
+          backgroundColor: "black",
+          width: "100vw",
+          border: "none",
+        }}
         className={styles.footer}
-      >
-        Powered by stuff
-      </footer>
+      ></footer>
     </Box>
   );
 };
