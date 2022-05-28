@@ -168,7 +168,6 @@ const CreateCollection: FC = ({
                 ))}
               </Select>
 
-              
               <UndrawSvgs option={badgeType} />
 
               <Stack gap={5}>
