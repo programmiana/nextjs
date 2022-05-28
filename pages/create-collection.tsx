@@ -161,13 +161,13 @@ const CreateCollection: FC = ({}) => {
     return result.charAt(0).toUpperCase() + result.slice(1);
   }
   return (
-    <Box alignItems={"center"}>
+    <Box sx={{ p: 2 }} alignItems={"center"}>
       {!collectionData.done && (
-        <Stack gap={2}>
-          <Typography variant="h5" noWrap>
+        <Stack sx={{ p: 2 }} gap={2}>
+          <Typography variant="h5">
             Start by naming your token collection template:
           </Typography>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <FormControl fullWidth sx={{ p: 2 }} variant="standard">
             <TextField
               id="collection-name"
               label={"Collection Name"}
@@ -189,10 +189,11 @@ const CreateCollection: FC = ({}) => {
       )}
 
       {collectionData.done && !inputFields.done && (
-        <Stack gap={3}>
-          <Typography variant="h4" noWrap>
-            Cool! {collectionData.name}. Now name some properties you would like
-            your template to have.
+        <Stack gap={3 } sx={{ m: 1}}>
+          <Typography variant="h4">
+            Cool! {collectionData.name}. 
+            Now name some properties you would like
+            your template to have:
           </Typography>
 
           <Stack gap={3} justifyItems="start">
@@ -233,10 +234,11 @@ const CreateCollection: FC = ({}) => {
           </Typography>
 
           <Stack gap={5}>
-            <FormControl>
+            <FormControl fullWidth sx={{ p: 2 }}>
               <InputLabel id="badgeType">Badge Theme</InputLabel>
               <Select
                 labelId="badgeType"
+                placeholder={"Cloud Pro"}
                 id="badgeType"
                 value={badgeType}
                 onChange={handleSelectChange}
@@ -250,7 +252,7 @@ const CreateCollection: FC = ({}) => {
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl fullWidth sx={{ p: 2 }}>
               <InputLabel id="primaryColor">First Color</InputLabel>
               <Select
                 labelId="primaryColor"
@@ -266,7 +268,7 @@ const CreateCollection: FC = ({}) => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl>
+            <FormControl fullWidth sx={{ p: 2 }}>
               <InputLabel id="secondaryColor">Second Color</InputLabel>
               <Select
                 labelId="secondaryColor"
@@ -289,7 +291,7 @@ const CreateCollection: FC = ({}) => {
               secondaryColor={secondaryColor}
             />
 
-            <FormControl variant="standard">
+            <FormControl fullWidth sx={{ p: 2 }} variant="standard">
               <TextField
                 label={"Badge Title"}
                 id="badgeTitle"
@@ -303,7 +305,12 @@ const CreateCollection: FC = ({}) => {
               />
             </FormControl>
             {inputFields.inputNames.map((el, index) => (
-              <FormControl key={index} variant="standard">
+              <FormControl
+                fullWidth
+                sx={{ p: 2 }}
+                key={index}
+                variant="standard"
+              >
                 <TextField
                   variant="standard"
                   label={capitalize(uncamelize(el))}
@@ -366,7 +373,7 @@ const AddInputField: FC<AddInputFieldProps> = ({
   formValues,
 }) => {
   return (
-    <FormControl variant="standard" sx={{ m: 1 }}>
+    <FormControl fullWidth sx={{ p: 2 }} variant="standard">
       {" "}
       <Stack justifyContent="center" direction={"row"} gap={5}>
         <TextField
