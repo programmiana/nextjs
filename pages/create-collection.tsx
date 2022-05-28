@@ -1,47 +1,27 @@
 import Add from "@mui/icons-material/Add";
 import {
   Box,
-  capitalize,
-  MenuItem,
+  capitalize, InputLabel, MenuItem,
   Select,
-  SelectChangeEvent,
-  InputLabel,
+  SelectChangeEvent
 } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-<<<<<<< HEAD
-import { ChangeEvent, FC, useState } from "react";
-=======
-import ButtonExample from "../pages/components/pick-color";
-import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
-import {
-  UndrawDesigner,
-  UndrawResponsive,
-  UndrawAgreement,
-  UndrawAppreciation,
-  UndrawAstronaut,
-  UndrawCloudHosting,
-  UndrawGraduation,
-  UndrawMindfulness,
-} from "react-undraw-illustrations";
->>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
-import SecondaryButton from "./components/secondary-button";
-import Button from "./components/button";
-import UndrawSvgs from "./components/undrawSvgs";
-<<<<<<< HEAD
-import ReactDOMServer from "react-dom/server";
-=======
-import { WalletContext } from "./components/wallet-context";
 import { Contract } from "near-api-js/lib/contract";
+import { ChangeEvent, FC, useContext, useState } from "react";
+import ReactDOMServer from "react-dom/server";
+import Button from "./components/button";
+import SecondaryButton from "./components/secondary-button";
+import UndrawSvgs from "./components/undrawSvgs";
+import { WalletContext } from "./components/wallet-context";
 import {
   config,
   factoryContractMethods,
-  FactoryContractWithMethods,
+  FactoryContractWithMethods
 } from "./contracts";
->>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
 
 const colors = [
   "deeppink",
@@ -87,17 +67,12 @@ const undrawSvgsOptions = [
     value: "Undraw Mindfulness",
   },
 ];
-<<<<<<< HEAD
-
-const CreateCollection: FC = ({}) => {
-=======
 // type WelcomePromptProps = {
 //   name?: string;
 //   address?: String;
 // };
 const CreateCollection: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
->>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
   const [collectionData, setCollectionName] = useState<{
     name: string;
     done: boolean;
@@ -194,7 +169,7 @@ const CreateCollection: FC = ({}) => {
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <TextField
               id="collection-name"
-              label={'Collection Name'}
+              label={"Collection Name"}
               onChange={(e) =>
                 setCollectionName({ name: e.currentTarget.value, done: false })
               }
@@ -215,7 +190,8 @@ const CreateCollection: FC = ({}) => {
       {collectionData.done && !inputFields.done && (
         <Stack gap={3}>
           <Typography variant="h4" noWrap>
-            Cool! {collectionData.name}. Now name some properties you would like your template to have.
+            Cool! {collectionData.name}. Now name some properties you would like
+            your template to have.
           </Typography>
 
           <Stack gap={3} justifyItems="start">
@@ -329,10 +305,7 @@ const CreateCollection: FC = ({}) => {
               />
             </FormControl>
             {inputFields.inputNames.map((el, index) => (
-              <FormControl
-                key={index}
-                variant="standard"
-              >
+              <FormControl key={index} variant="standard">
                 <TextField
                   variant="standard"
                   label={capitalize(uncamelize(el))}
@@ -386,21 +359,24 @@ const AddInputField: FC<AddInputFieldProps> = ({
         <TextField
           id={name}
           name={"name"}
-          helperText={index === 0 && "Name, birthday, years in the company, date of purchase..."}
+          helperText={
+            index === 0 &&
+            "Name, birthday, years in the company, date of purchase..."
+          }
           onChange={(e) => onChange(index, e)}
         />
         <IconButton
           color="primary"
           component="span"
           disabled={!formValues[index].name}
-          style={{alignSelf: "center"}}
+          style={{ alignSelf: "center" }}
           onClick={() => {
             if (formValues[index].name === "") return;
             addFormFields();
             onChange;
           }}
         >
-          <Add fontSize="inherit"/>
+          <Add fontSize="inherit" />
         </IconButton>
       </Stack>
     </FormControl>

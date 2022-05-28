@@ -3,17 +3,14 @@ import { Stack } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { useBundlr } from "hooks/useBundlr";
 import { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
 import styles from "../../styles/Home.module.css";
 import PrimaryButton from "../components/button";
 import SecondaryButton from "./secondary-button";
-<<<<<<< HEAD
 import ObjectCanvas from "./three-object";
 import { useWallet } from "./wallet-context";
-=======
-import { useBundlr } from "hooks/useBundlr";
->>>>>>> b949b118f525fa61f87a6cc2c3eefefee05bd861
 declare var window: any;
 
 type LayoutProps = {
