@@ -1,14 +1,16 @@
 import { WebBundlr } from "@bundlr-network/client/build/web";
+import { WalletConnection } from "near-api-js";
 import { useContext } from "react";
 // import { getWallet } from  need to get the wallet address from the connection from NEAR
 
-const getBundlr = async (wallet) => {
-  // const wallet = await getWallet()
-  // hi david here we need a wallet
-  const bundlr = new WebBundlr("https://node1.bundlr.network", "near", wallet);
-  await bundlr.ready();
-  return bundlr;
-  console.log("tx created");
+export async function getBundlr(wal: WalletConnection){
+  if(!wal) return;
+  console.log(wal)
+  const bundlr = new WebBundlr("https://node1.bundlr.network", "near", wal);
+  if(bundlr){
+    await bundlr.ready();
+    return bundlr;
+  }
 };
 
 export async function uploadImageToArweave(wallet) {
@@ -17,22 +19,22 @@ export async function uploadImageToArweave(wallet) {
   await getBundlr(wallet);
 }
 
-export const createTx = async (text, tags) => {
-  const bundlr = await getBundlr();
-  return await bundlr.createTransaction(text, { tags });
+export const createTx = async (wal, text, tags) => {
+  const bundlr = await getBundlr(wal);
+  const amount = await bundlr?.createTransaction(text, { tags });
+console.log(amount)
   console.log("tx created");
 };
 
-export const fundBundlr = async (size) => {
-  const bundlr = await getBundlr();
+export const fundBundlr = async (bun, size) => {
   // calculate amount based on size * 10%
   const total = Math.round(Number(size) * 1.1);
 
-  const amount = (await bundlr.getPrice(total)).toString();
-  await bundlr.fund(amount);
+  const amount = (await bun.getPrice(total)).toString();
+  await bun.fund(amount);
   await delay(1000); // wait for funding to occur
   // check balance
-  const balance = (await bundlr.getLoadedBalance()).toString();
+  const balance = (await bun.getLoadedBalance()).toString();
   if (Number(balance) >= Number(amount)) {
     return true;
   }
