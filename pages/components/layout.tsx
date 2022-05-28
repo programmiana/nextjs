@@ -34,7 +34,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <StyledAppBar position="static">
         <Stack spacing={0} alignItems="center">
           <Link href="/">
-            <h1 className={styles.title}>SoulBadger</h1>
+            <h1 className={styles.title}>SoulBadge</h1>
           </Link>
           <ObjectCanvas />
         </Stack>
