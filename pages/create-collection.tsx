@@ -14,6 +14,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Contract } from "near-api-js/lib/contract";
 import { Router, useRouter } from "next/router";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { ChangeEvent, FC, useContext, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import Button from "./components/button";
@@ -74,6 +75,10 @@ const undrawSvgsOptions = [
 
 const CreateCollection: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
+  const [creationState, setCreationState] = useLocalStorage(
+    "creationState",
+    ""
+  );
   const [collectionData, setCollectionName] = useState<{
     name: string;
     done: boolean;
@@ -141,14 +146,25 @@ const CreateCollection: FC = ({}) => {
       config.factoryContractAccount,
       factoryContractMethods
     ) as FactoryContractWithMethods;
-
+    const tokenId = `a-${Math.random()
+      .toString()
+      .slice(3)}`;
+    setCreationState(
+      JSON.stringify({
+        tokenId: tokenId,
+        tokenName: collectionData.name,
+      })
+    );
+    // Sends user to near website
     await createNTTCollection(
       userUseFactoryContract,
       wallet.getAccountId(),
-      userAccount
+      userAccount,
+      {
+        name: collectionData.name,
+        symbol: tokenId,
+      }
     );
-
-    console.log("Ba");
   };
 
   const htmlString = ReactDOMServer.renderToString(

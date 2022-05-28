@@ -55,7 +55,7 @@ export interface FactoryContractWithMethods extends Contract {
   storage_deposit: ChangeFunctionType;
 }
 
-interface TokenContractWithMethods extends Contract {
+export interface TokenContractWithMethods extends Contract {
   nft_total_supply: ViewFunctionType;
   nft_tokens: ViewFunctionType;
   nft_supply_for_owner: ViewFunctionType;
@@ -103,12 +103,49 @@ export const factoryContractMethods: {
   changeMethods: ["create_token", "storage_deposit"],
 };
 
+export async function mintNTT(
+  tokenContractAsUser: TokenContractWithMethods,
+  metadata: object,
+  receiver_id: string
+) {
+  /**
+   *
+   * Test creating NTTs in end contract
+   *
+   */
+
+  // see for reference: https://github.com/near-examples/NFT/blob/master/integration-tests/ts/src/main.ava.ts
+  await tokenContractAsUser.nft_mint({
+    amount: new BN("561000000000000000000000"),
+    attachedDeposit: new BN("561000000000000000000000"),
+    // gas: tGas("150"),
+    args: {
+      token_id: "0",
+      metadata: {
+        title: "",
+        description: "",
+        media: null,
+        media_hash: null,
+        copies: 1,
+        issued_at: null,
+        expires_at: null,
+        starts_at: null,
+        updated_at: null,
+        extra: null,
+        reference: null,
+        reference_hash: null,
+        ...metadata,
+      },
+      receiver_id: receiver_id,
+    },
+  } as any);
+}
+
 export async function createNTTCollection(
   factoryContractUser: FactoryContractWithMethods,
   ownerAccountId: any,
   userAccount: Account,
-  metadata = {},
-  collectionMetadata = {}
+  metadata = {}
 ) {
   const args = {
     owner_id: ownerAccountId,
@@ -136,7 +173,6 @@ export async function createNTTCollection(
           ...args,
           metadata: {
             ...args.metadata,
-            ...collectionMetadata,
           },
         },
       },
@@ -159,7 +195,6 @@ export async function createNTTCollection(
             ...args,
             metadata: {
               ...args.metadata,
-              ...collectionMetadata,
             },
           },
         },
