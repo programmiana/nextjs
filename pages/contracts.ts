@@ -103,9 +103,10 @@ export const factoryContractMethods: {
   changeMethods: ["create_token", "storage_deposit"],
 };
 
-async function createNTTCollection(
+export async function createNTTCollection(
   factoryContractUser: FactoryContractWithMethods,
   ownerAccountId: any,
+  userAccount: Account,
   metadata = {},
   collectionMetadata = {}
 ) {
@@ -114,46 +115,57 @@ async function createNTTCollection(
     metadata: {
       spec: "ntt-0.0.1",
       name: "BOOP",
+      // This symbol is used to determine the address boop2.
       symbol: "Boop2",
       icon: "xyz",
       decimals: 1,
+      ...metadata,
     },
   };
-  console.log("1");
   const requiredDeposit = Big(
     await factoryContractUser.get_required_deposit({
       args,
       account_id: ownerAccountId,
     })
   );
-  // ls(lsKeyToken, args);
-  // ls(lsKeyCreateToken, true);
-  console.log("2");
-  await factoryContractUser.storage_deposit({
-    args: {},
-    // Maybe not BN( wrap)
-    gas: new BN(BoatOfGas.toFixed(0)),
-    amount: requiredDeposit.toFixed(0),
-  });
-  console.log("3");
-  await factoryContractUser.create_token({
-    args: {
+  if (requiredDeposit.eq(0)) {
+    // We have enough $$! Awesome
+    await factoryContractUser.create_token({
       args: {
-        owner_id: ownerAccountId,
-        metadata: {
-          spec: "ntt-0.0.1",
-          name: "Bop",
-          symbol: "bop",
-          icon: null,
-          reference: null,
-          reference_hash: null,
-          decimals: 2,
-          ...collectionMetadata,
+        args: {
+          ...args,
+          metadata: {
+            ...args.metadata,
+            ...collectionMetadata,
+          },
         },
       },
-    },
-    // Maybe not BN( wrap)
-    gas: new BN(BoatOfGas.toFixed(0)),
-  });
-  console.log("4");
+      gas: new BN(BoatOfGas.toFixed(0)),
+    });
+  } else {
+    //TODO: This branch of the if doesn't quite work
+    // ls(lsKeyToken, args);
+    // ls(lsKeyCreateToken, true);
+    await userAccount.signAndSendTransaction(config.factoryContractAccount, [
+      await factoryContractUser.storage_deposit({
+        args: {},
+        // Maybe not BN( wrap)
+        gas: new BN(BoatOfGas.toFixed(0)),
+        amount: requiredDeposit.toFixed(0),
+      }),
+      await factoryContractUser.create_token({
+        args: {
+          args: {
+            ...args,
+            metadata: {
+              ...args.metadata,
+              ...collectionMetadata,
+            },
+          },
+        },
+        // Maybe not BN( wrap)
+        gas: new BN(BoatOfGas.toFixed(0)),
+      }),
+    ]);
+  }
 }

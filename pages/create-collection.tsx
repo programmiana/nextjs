@@ -1,9 +1,11 @@
 import Add from "@mui/icons-material/Add";
 import {
   Box,
-  capitalize, InputLabel, MenuItem,
+  capitalize,
+  InputLabel,
+  MenuItem,
   Select,
-  SelectChangeEvent
+  SelectChangeEvent,
 } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
@@ -20,7 +22,8 @@ import { WalletContext } from "./components/wallet-context";
 import {
   config,
   factoryContractMethods,
-  FactoryContractWithMethods
+  createNTTCollection,
+  FactoryContractWithMethods,
 } from "./contracts";
 
 const colors = [
@@ -127,10 +130,10 @@ const CreateCollection: FC = ({}) => {
     setFormValues(newFormValues);
   };
 
-  let handleSubmit = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  let handleSubmit = async (
+    event?: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    event.preventDefault();
+    event?.preventDefault();
     alert(JSON.stringify(formValues));
 
     const userAccount = wallet!.account();
@@ -139,6 +142,14 @@ const CreateCollection: FC = ({}) => {
       config.factoryContractAccount,
       factoryContractMethods
     ) as FactoryContractWithMethods;
+
+    await createNTTCollection(
+      userUseFactoryContract,
+      wallet.getAccountId(),
+      userAccount
+    );
+
+    console.log("Ba");
   };
 
   const htmlString = ReactDOMServer.renderToString(
@@ -324,6 +335,7 @@ const CreateCollection: FC = ({}) => {
             label={"mint non-transferable token"}
             onClick={() => {
               // post all
+              handleSubmit();
             }}
           />
         </Stack>
