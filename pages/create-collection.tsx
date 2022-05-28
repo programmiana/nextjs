@@ -168,10 +168,10 @@ const CreateCollection: FC = ({
                 ))}
               </Select>
 
-             
               <ButtonExample />
 
               <UndrawSvgs option={badgeType} />
+              
               <Stack gap={5}>
                 <TextField
                   label={"badge title"}

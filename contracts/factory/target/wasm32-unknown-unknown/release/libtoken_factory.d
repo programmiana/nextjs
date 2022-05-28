@@ -1,0 +1,1 @@
+/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/wasm32-unknown-unknown/release/libtoken_factory.rlib: /Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/src/../../token/build-output/main.wasm /Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/src/lib.rs

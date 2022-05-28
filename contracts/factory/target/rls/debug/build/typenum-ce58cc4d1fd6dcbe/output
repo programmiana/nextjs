@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/rls/debug/build/typenum-ce58cc4d1fd6dcbe/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/rls/debug/build/typenum-ce58cc4d1fd6dcbe/out/op.rs

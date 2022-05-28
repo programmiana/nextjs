@@ -1,0 +1,13 @@
+/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/release/deps/quote-8c3d5110b35eae4f.rmeta: /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/lib.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ext.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/format.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ident_fragment.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/to_tokens.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/runtime.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/spanned.rs
+
+/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/release/deps/libquote-8c3d5110b35eae4f.rlib: /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/lib.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ext.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/format.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ident_fragment.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/to_tokens.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/runtime.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/spanned.rs
+
+/Users/DVF/Projects/created/nftberlin-hackathon/contracts/factory/target/release/deps/quote-8c3d5110b35eae4f.d: /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/lib.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ext.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/format.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ident_fragment.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/to_tokens.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/runtime.rs /Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/spanned.rs
+
+/Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/lib.rs:
+/Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ext.rs:
+/Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/format.rs:
+/Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/ident_fragment.rs:
+/Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/to_tokens.rs:
+/Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/runtime.rs:
+/Users/DVF/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.3/src/spanned.rs:
