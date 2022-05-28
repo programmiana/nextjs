@@ -11,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Contract } from "near-api-js/lib/contract";
+import { Router, useRouter } from "next/router";
 import { ChangeEvent, FC, useContext, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import Button from "./components/button";
@@ -67,16 +68,15 @@ const undrawSvgsOptions = [
     value: "Undraw Mindfulness",
   },
 ];
-// type WelcomePromptProps = {
-//   name?: string;
-//   address?: String;
-// };
+
 const CreateCollection: FC = ({}) => {
   const { wallet } = useContext(WalletContext)!;
   const [collectionData, setCollectionName] = useState<{
     name: string;
     done: boolean;
   }>({ name: "", done: false });
+
+  const router = useRouter();
 
   const [inputFields, setInputFields] = useState<{
     inputNames: string[];
@@ -323,6 +323,7 @@ const CreateCollection: FC = ({}) => {
           <Button
             label={"mint non-transferable token"}
             onClick={() => {
+              router.push('/your-collection')
               // post all
             }}
           />
