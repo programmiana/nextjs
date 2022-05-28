@@ -7,28 +7,30 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { arweave } from "./api/api";
-import { createTx, fundBundlr } from "./api/bundlr";
-import React, { useEffect } from "react";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import { uploadImageToArweave } from "./api/bundlr";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Contract } from "near-api-js/lib/contract";
-import { Router, useRouter } from "next/router";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { ChangeEvent, FC, useContext, useState } from "react";
+import { useRouter } from "next/router";
+import React, { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import {
+  createTx,
+  fundBundlr,
+  getBundlr,
+  uploadImageToArweave,
+} from "./api/bundlr";
 import Button from "./components/button";
 import SecondaryButton from "./components/secondary-button";
 import UndrawSvgs from "./components/undrawSvgs";
 import { WalletContext } from "./components/wallet-context";
 import {
   config,
-  factoryContractMethods,
   createNTTCollection,
+  factoryContractMethods,
   FactoryContractWithMethods,
 } from "./contracts";
 
@@ -160,6 +162,7 @@ const CreateCollection: FC = ({}) => {
       })
     );
     const imageUrlInArweave = await uploadImageToArweave(wallet);
+
     // Sends user to near website
     await createNTTCollection(
       userUseFactoryContract,
@@ -192,53 +195,62 @@ const CreateCollection: FC = ({}) => {
   }
 
   const [postValue, setPostValue] = React.useState("");
-  // const [isPosting, setIsPosting] = React.useState(false);
+  const [isPosting, setIsPosting] = React.useState(false);
 
-  // useEffect(() => {
-  //   setPostValue(
-  //     JSON.stringify({
-  //       ...inputFields.inputNames,
-  //       ...secondFormValues,
-  //       primaryColor,
-  //       svgName: badgeType,
-  //       collectionName: collectionData.name,
-  //     })
-  //   );
-  // }, [inputFields, secondFormValues, primaryColor, collectionData, badgeType]);
-  // useEffect(() => {
-  //   setIsPosting(true);
-  //   const fetchData = async () => {
-  //     const funded = await fundBundlr(postValue);
+  useEffect(() => {
+    setPostValue(
+      JSON.stringify({
+        ...inputFields.inputNames,
+        ...secondFormValues,
+        primaryColor,
+        svgName: badgeType,
+        collectionName: collectionData.name,
+      })
+    );
+  }, [inputFields, secondFormValues, primaryColor, collectionData, badgeType]);
 
-  //     if (funded) {
-  //       const tx = await createTx(postValue, [
-  //         { name: "App-Name", value: "Soulbadge" },
-  //         { name: "Content-Type", value: "text/plain" },
-  //         { name: "Version", value: "1.0.1" },
-  //         { name: "Type", value: "post" },
-  //         { name: "Wallet", value: "NEAR" },
-  //       ]);
-  //       try {
-  //         await tx.sign();
-  //         await tx.upload();
-  //         // setPostValue("");
-  //         //setTopicValue("");
-  //         // if (onPostMessage) {
-  //         //   onPostMessage(tx.id);
-  //         // }
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     } else {
-  //       alert("Could not fund bundlr!");
-  //     }
-  //   };
+  const [bundlrData, setBundlrData] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = getBundlr(wallet);
+      setBundlrData(bundlrData);
+    };
+    fetchData().catch((e) => console.log(e));
+  }, []);
 
-  //   fetchData();
-  //   setIsPosting(false);
-  // }, [postValue]);
+  useEffect(() => {
+    if (!bundlrData) return;
+    setIsPosting(true);
+    const fetchData = async () => {
+      const funded = await fundBundlr(bundlrData, postValue);
 
-  console.log(wallet);
+      if (funded) {
+        const tx = await createTx(bundlrData, postValue, [
+          { name: "App-Name", value: "Soulbadge" },
+          { name: "Content-Type", value: "text/plain" },
+          { name: "Version", value: "1.0.1" },
+          { name: "Type", value: "post" },
+          { name: "Wallet", value: "NEAR" },
+        ]);
+        try {
+          await tx.sign();
+          await tx.upload();
+          // setPostValue("");
+          //setTopicValue("");
+          // if (onPostMessage) {
+          //   onPostMessage(tx.id);
+          // }
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        alert("Could not fund bundlr!");
+      }
+    };
+
+    fetchData();
+    setIsPosting(false);
+  }, [postValue, bundlrData]);
 
   return (
     <Box sx={{ p: 2 }} alignItems={"center"}>
