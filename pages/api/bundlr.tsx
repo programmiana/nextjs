@@ -50,6 +50,9 @@ export async function getArweaveImage(transactionId) {
       .then((data) => {
         resolve(data);
         console.log("data: ", data);
+      })
+      .catch(() => {
+        resolve("");
       });
   });
 }
